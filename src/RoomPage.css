@@ -1,0 +1,98 @@
+/* RoomsPage.css */
+
+/* --- الألوان الأساسية لتوحيد المظهر مع باقي التطبيق --- */
+:root {
+    --bg-primary: #12121e;
+    --bg-card: #282c34;
+    --text-light: #e0e0e0;
+    --color-accent: #00bfff;
+}
+
+/* 1. الحاوية الرئيسية للصفحة (لتنظيم المحتوى أسفل الـ Navbar) */
+.rooms-page-container {
+    padding: 24px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto; 
+    background-color: var(--bg-primary); 
+    color: var(--text-light);
+    min-height: calc(100vh - 100px); 
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.rooms-page-container h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: var(--color-accent);
+    text-align: center;
+}
+
+/* 2. حاوية الشبكة (Grid) */
+.rooms-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* 3. بطاقة الغرفة الفردية (الـ Link) */
+.room-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px; 
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    background-color: var(--bg-card); 
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid #333;
+    
+    /* 💥 الأهم: تحديد ارتفاع ثابت لجميع البطاقات (لتجنب التمدد) */
+    height: 300px; 
+}
+
+.room-card-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* 4. حاوية الصورة (Container) */
+.room-image-container {
+    width: 100%;
+    height: 180px; /* 💥 تثبيت ارتفاع حاوية الصورة */
+    position: relative;
+    border-bottom: 2px solid var(--color-accent);
+    flex-shrink: 0; 
+}
+
+/* 5. عنصر الصورة نفسه (Image element) */
+.room-image-container img {
+    width: 100%;
+    height: 100%;
+    
+    /* 💥 الأهم: لملء الحجم المخصص دون تشويه (يقص الزائد) */
+    object-fit: cover; 
+}
+
+/* 6. قسم النص والأيقونة */
+.room-info-section {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    flex-grow: 1; 
+}
+
+.room-info-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-accent);
+}
+
+.room-info-section span svg {
+    color: var(--text-light);
+}

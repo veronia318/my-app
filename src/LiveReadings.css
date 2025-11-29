@@ -1,0 +1,87 @@
+/*.live-readings-container {
+    width: 90vw!important;
+    max-width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    height: auto !important;
+    min-height: auto !important;
+}*/
+/* LiveReadings.css (Modified) */
+.live-readings-container {
+    width: 90vw;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: var(--bg-primary); 
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.live-graph-container {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* خلي كل العناصر اللي جواها تتمدد */
+.system-header,
+.reading-card,
+.live-graph-container {
+    width: 100%;
+}
+
+/* تعديل عرض البوكسات بتاعة الجهد/التيار/القدرة */
+.reading-cards-wrapper {
+    display: flex;
+    justify-content:space-between;
+    width: 100%;
+}
+
+.system-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; 
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+}
+
+.logo-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #a0a0ff; 
+    margin: 0;
+}
+
+.logo-subtitle {
+    font-size: 14px;
+    color: #999999;
+    margin-top: 5px;
+}
+
+.status-section {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-section.online {
+    background-color: #0b2218; 
+    color: #00ff00; 
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    background-color: #00ff00; 
+}
+
+.section-title {
+    font-size: 24px;
+    color: #e0e0e0;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
