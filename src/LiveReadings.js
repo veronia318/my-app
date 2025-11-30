@@ -303,7 +303,7 @@ function LiveReadings() {
         <div className="live-readings-container">
             <header className="system-header">
                 <div className="logo-section">
-                    <h1 className="logo-title">PowerStream</h1>
+                    <h2 className="logo">Live Readings</h2>
                     <p className="logo-subtitle">Real-time Electrical Monitoring System</p>
                 </div>
                 <div className="status-section online">

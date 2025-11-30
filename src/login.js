@@ -98,7 +98,7 @@ function LoginPage() {
                 </button>
 
                 <p className="signin">
-                    Don’t have an account? <a href="#">Signup</a>
+                    Don’t have an account? <a href="register">Signup</a>
                 </p>
 
             </form>

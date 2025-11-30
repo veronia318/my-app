@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import './RoomPage.css';
 import {
   LampCeiling,
   Bed,
@@ -12,13 +13,13 @@ export default function RoomsPage() {
   const rooms = [
     {
       name: "Living Room",
-      image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85", // you can replace later
+      image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511", // you can replace later
       path: "/rooms/living",
       icon: <LampCeiling size={32} />, 
     },
     {
       name: "Bedroom",
-      image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511",
+      image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85",
       path: "/rooms/bedroom",
       icon: <Bed size={32} />,
     },
@@ -37,17 +38,17 @@ export default function RoomsPage() {
   ];
 
   return (
-    <div className="w-full min-h-screen p-6">
-      <h1 className="text-3xl font-bold mb-6">Your Rooms</h1>
+    <div className="rooms-page-container">
+      <h1 className="text-3xl font-bold mb-6" style={{color: "white"}}>Your Rooms</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="rooms-grid">
         {rooms.map((room) => (
           <Link
             key={room.name}
             to={room.path}
-            className="shadow-md rounded-2xl overflow-hidden hover:scale-[1.02] duration-200 bg-white"
+            className="room-card-link"
           >
-            <div className="relative w-full h-40">
+            <div className="room-image-container">
               <img
                 src={room.image}
                 alt={room.name}
@@ -55,8 +56,8 @@ export default function RoomsPage() {
               />
             </div>
 
-            <div className="p-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold">{room.name}</h2>
+            <div className="room-info-section">
+              <h2 className="text-xl font-bold">{room.name}</h2>
               <span>{room.icon}</span>
             </div>
           </Link>

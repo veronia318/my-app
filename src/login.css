@@ -1,190 +1,19 @@
 liveReadings.css
 .login-container {
-    /* هذه القواعد تجعل النموذج في وسط الشاشة أفقيًا وعموديًا */
     display: flex;
-    justify-content: center; /* توسيط أفقي */
-    align-items: center; /* توسيط عمودي */
-    /* ضمان أن الحاوية تغطي كل المساحة أسفل الـ Navbar */
-    min-height: calc(100vh - 80px); /* 100vh ناقص ارتفاع الـ Navbar التقريبي */
-    padding-top: 20px; /* لترك مساحة جيدة أسفل الـ Navbar */
-}
-/* --- الألوان الأساسية --- */
-
-:root {
-    --bg-primary: #12121e; 
-    --bg-secondary: #1e1e30; 
-    --text-light: #e0e0e0;
-    --text-dark: #b3b3b3;
-    --color-voltage: #4a148c;
-    --color-current: #2e7d32;
-    --color-power: #ff8f00; 
-    --color-online: #4caf50; 
-}
-
-.live-readings-container {
-    padding: 30px;
-    background-color: var(--bg-primary);
-    color: var(--text-light);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: auto;
-}
-
-.live-readings-container h2 {
-    color: var(--text-light);
-    font-weight: 700;
-    font-size: 28px;
-    margin-bottom: 5px;
-}
-
-.system-status {
-    float: right;
-    display: flex;
+    justify-content: center;
     align-items: center;
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--color-online);
+    min-height: calc(100vh - 80px);
+    padding-top: 20px;
 }
-
-.system-status::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--color-online);
-    margin-right: 8px;
-    box-shadow: 0 0 5px var(--color-online);
-}
-
-/* --- حاوية البطاقات (Voltage, Current, Power) --- */
-.cards-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin-top: 30px;
-    /* لإعادة تنظيم البطاقات في صفحة live-readings-container */
-    /* يجب تعديل هيكل JSX ليتطابق مع الصورة */
-}
-
-/* --- بطاقة القراءة الفردية --- */
-.reading-card {
-    flex-grow: 1;
-    padding: 20px;
-    border-radius: 12px;
-    background-color: var(--bg-secondary);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    position: relative;
-    overflow: hidden;
-    min-width: 200px;
-    transition: transform 0.3s ease;
-}
-
-.reading-card:hover {
-    transform: translateY(-3px);
-}
-
-.reading-card h3 {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: var(--text-dark);
-    text-transform: uppercase;
-}
-
-.reading-card p {
-    font-size: 32px;
-    font-weight: 800;
-    margin: 0;
-}
-
-.reading-card p span {
-    font-size: 18px;
-    font-weight: 500;
-    margin-left: 5px;
-    opacity: 0.8;
-}
-
-/* --- تخصيص الألوان لكل بطاقة --- */
-.reading-card.voltage { border-left: 4px solid var(--color-voltage); }
-.reading-card.current { border-left: 4px solid var(--color-current); }
-.reading-card.power { border-left: 4px solid var(--color-power); }
-
-/* --- الأيقونات الخلفية (لتحقيق تأثير التصميم) --- */
-.reading-card::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    font-size: 60px;
-    opacity: 0.1;
-    transform: translateY(-50%);
-    font-family: Arial, sans-serif;
-}
-.reading-card.voltage::after { content: '\26A1'; color: var(--color-voltage); } /* رمز البرق */
-.reading-card.current::after { content: '\269B'; color: var(--color-current); } /* رمز التيار (اختياري) */
-.reading-card.power::after { content: '\1F50C'; color: var(--color-power); } /* رمز البطارية */
-
-
-/* --- جزء الرسم البياني (Real-Time Analysis) --- */
-.live-graph-container {
-    background-color: var(--bg-secondary) !important; /* Overriding inline style */
-    color: var(--text-light);
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 40px !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-}
-
-.live-graph-container h3 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 10px;
-}
-
-/* --- تفاصيل أخرى --- */
-.last-update {
-    text-align: right;
-    font-size: 12px;
-    color: var(--text-dark);
-    margin-top: 10px;
-}
-
-.loading-state {
-    text-align: center;
-    padding: 50px;
-    font-size: 20px;
-    color: var(--text-light);
-    background-color: var(--bg-primary);
-    min-height: 100vh;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   max-width: 350px;
-  padding: 20px;
   border-radius: 20px;
   position: relative;
-  background-color: #1a1a1a;
-  color: #fff;
+  background-color: white;
   border: 1px solid #333;
 }
 .login-container .form {
@@ -194,7 +23,7 @@ liveReadings.css
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 30px;;
+    padding: 30px;
 }
 .title {
   font-size: 28px;
@@ -204,7 +33,7 @@ liveReadings.css
   display: flex;
   align-items: center;
   padding-left: 30px;
-  color: #00bfff;
+  color:  #7979c3;
 }
 
 .title::before {
@@ -226,13 +55,13 @@ liveReadings.css
   width: 16px;
   border-radius: 50%;
   left: 0px;
-  background-color: #00bfff;
+  background-color: #7979c3;
 }
 
 .message, 
 .signin {
   font-size: 14.5px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .signin {
@@ -240,11 +69,12 @@ liveReadings.css
 }
 
 .signin a:hover {
-  text-decoration: underline royalblue;
+  color: rgb(255, 173, 22);
+  text-decoration: underline rgb(255, 173, 22);
 }
 
 .signin a {
-  color: #00bfff;
+  color: #323276;
 }
 
 .flex {
@@ -258,7 +88,7 @@ liveReadings.css
 }
 
 .form label .input {
-  background-color: #333;
+  background-color: white;
   color: #fff;
   width: 100%;
   padding: 20px 05px 05px 10px;
@@ -269,7 +99,7 @@ liveReadings.css
 }
 
 .form label .input + span {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.69);
   position: absolute;
   left: 10px;
   top: 10px;
@@ -282,7 +112,7 @@ liveReadings.css
 
 .form label .input:focus + span,
 .form label .input:valid + span {
-  color: #00bfff;
+  color: #7979c3;
   top: 0px;
   font-size: 0.7em;
   font-weight: 600;
@@ -300,11 +130,13 @@ liveReadings.css
   color: #fff;
   font-size: 16px;
   transform: .3s ease;
-  background-color: #00bfff;
+  background-color: #7979c3;
+  cursor: pointer;
 }
 
 .submit:hover {
-  background-color: #00bfff96;
+  background-color: rgb(255, 173, 22);
+  font-weight: 700;
 }
 
 @keyframes pulse {
