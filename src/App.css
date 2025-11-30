@@ -50,7 +50,6 @@
 }
 
 .logo {
-  color: rgb(255, 0, 0);
   font-size: 24px;
   margin: 0;
 }
@@ -58,7 +57,7 @@
 .logo-title {
     font-size: 30px;
     font-weight: 700;
-    color: #a0a0ff; 
+    color: #00BFFF; 
     margin: 0;
 }
 .logo-title span {
@@ -89,7 +88,7 @@
 }
 
 .nav-link:hover {
- color: #a0a0ff; 
+  color:#00BFFF; 
 }
 
 .nav-link:hover::after {
