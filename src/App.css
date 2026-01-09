@@ -31,7 +31,7 @@
     min-height: 100vh;
     width: 100vw;
     margin: 0;
-    padding: 0;
+    padding: 0px;
     background-color: #12121e; 
 }
 
@@ -45,6 +45,7 @@
   padding: 10px 30px;
   border-radius: 10px;
   margin:auto; 
+  /*margin-top: 10px;*/
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.823);
   background-color: #20232a;
 }

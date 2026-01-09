@@ -1,375 +1,233 @@
-
-// this is the old code with api without graph 
-//import React, { useState, useEffect } from 'react';
-
-//function LiveReadings() {
-//    const [readings, setReadings] = useState({
-//        voltage: 0.00,
-//        current: 0.00,
-//        power: 0.00
-//    });
-//    const [isLoading, setIsLoading] = useState(true);
-//    const [error, setError] = useState(null);
-
-//    const API_ENDPOINT = '/readings'; 
-
-//    const fetchData = async () => {
-//        try {
-//            const response = await fetch(API_ENDPOINT);
-//            if (!response.ok) {
-//                throw new Error(`HTTP error! status: ${response.status}`);
-//            }
-//            const data = await response.json();
-//            setReadings(data);
-//            setIsLoading(false);
-//            setError(null);
-//        } catch (err) {
-//            console.error("Failed to fetch data:", err);
-//            setError("Cannot connect to ESP32 server. Please check the network and API endpoint.");
-//            setIsLoading(false);
-//        }
-//    };
-
-//    useEffect(() => {
-//        fetchData();
-//        const intervalId = setInterval(fetchData, 1000);
-//        return () => clearInterval(intervalId);
-//    }, []);
-
-//    if (isLoading) {
-//        return <div className="loading-state">Loading live data... ⏳</div>;
-//    }
-
-//    if (error) {
-//        return <div className="error-state" style={{ color: 'red' }}>Error: {error}</div>;
-//    }
-
-//    return (
-//        <div className="live-readings-container">
-//            <h2> Live Readings </h2>
-            
-//            <div className="reading-card voltage">
-//                <h3>Voltage</h3>
-//                <p>{readings.voltage.toFixed(2)} <span>V</span></p>
-//            </div>
-            
-//            <div className="reading-card current">
-//                <h3>Current</h3>
-//                <p>{readings.current.toFixed(2)} <span>A</span></p>
-//            </div>
-            
-//            <div className="reading-card power">
-//                <h3>Power</h3>
-//                <p>{readings.power.toFixed(2)} <span>W</span></p>
-//            </div>
-
-//            <p className="last-update">Last updated: {new Date().toLocaleTimeString()}</p>
-//        </div>
-//    );
-//}
-
-//export default LiveReadings;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//this is the new code with graph
-
-//import React, { useState, useEffect } from 'react';
-//import { 
-//    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
-//} from 'recharts';
-
-//// Set a limit for how many data points to keep in history
-//const HISTORY_LIMIT = 20; 
-
-//function LiveReadings() {
-//    const [readings, setReadings] = useState({
-//        voltage: 0.00,
-//        current: 0.00,
-//        power: 0.00
-//    });
-//    // New state to hold historical data for the graph
-//    const [historyData, setHistoryData] = useState([]);
-//    const [isLoading, setIsLoading] = useState(true);
-//    const [error, setError] = useState(null);
-
-//    const API_ENDPOINT = '/readings';
-
-//    const fetchData = async () => {
-//        try {
-//            const response = await fetch(API_ENDPOINT);
-//            if (!response.ok) {
-//                throw new Error(`HTTP error! status: ${response.status}`);
-//            }
-//            const data = await response.json();
-            
-//            // 1. Update the current readings state
-//            setReadings(data);
-
-//            // 2. Format the new reading with a timestamp for the graph
-//            const newReading = {
-//                ...data,
-//                // Use a simple time string for the X-axis label
-//                time: new Date().toLocaleTimeString('en-US', { hour12: false, second: '2-digit', minute: '2-digit' })
-//            };
-
-//            // 3. Update historyData while keeping the array size limited
-//            setHistoryData(prevData => {
-//                const updatedData = [...prevData, newReading];
-//                // Limit the array size for better performance and visualization
-//                if (updatedData.length > HISTORY_LIMIT) {
-//                    return updatedData.slice(updatedData.length - HISTORY_LIMIT);
-//                }
-//                return updatedData;
-//            });
-            
-//            setIsLoading(false);
-//            setError(null);
-//        } catch (err) {
-//            console.error("Failed to fetch data:", err);
-//            setError("Cannot connect to ESP32 server. Please check the network and API endpoint.");
-//            setIsLoading(false);
-//        }
-//    };
-
-//    useEffect(() => {
-//        // Initial fetch
-//        fetchData(); 
-//        // Set up the interval for continuous updates (1000ms = 1 second)
-//        const intervalId = setInterval(fetchData, 1000); 
-//        // Clean up the interval when the component unmounts
-//        return () => clearInterval(intervalId);
-//    }, []);
-
-//    if (isLoading) {
-//        return <div className="loading-state">Loading live data... ⏳</div>;
-//    }
-
-//    if (error) {
-//        return <div className="error-state" style={{ color: 'red' }}>Error: {error}</div>;
-//    }
-
-//    return (
-//        <div className="live-readings-container">
-//            <h2>Live Readings and History 📈</h2>
-            
-//            {/* Display Cards for Current Readings */}
-//            <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
-//                <div className="reading-card voltage">
-//                    <h3>Voltage</h3>
-//                    <p>{readings.voltage.toFixed(2)} <span>V</span></p>
-//                </div>
-                
-//                <div className="reading-card current">
-//                    <h3>Current</h3>
-//                    <p>{readings.current.toFixed(2)} <span>A</span></p>
-//                </div>
-                
-//                <div className="reading-card power">
-//                    <h3>Power</h3>
-//                    <p>{readings.power.toFixed(2)} <span>W</span></p>
-//                </div>
-//            </div>
-            
-//            <p className="last-update">Last updated: {new Date().toLocaleTimeString()}</p>
-
-//            {/* Section for the Live Graph */}
-//            <div className="live-graph-container" style={{ width: '100%', height: 300, marginTop: '30px', border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
-//                <h3>Real-Time Plot</h3>
-//                <ResponsiveContainer width="100%" height="100%">
-//                    <LineChart
-//                        data={historyData}
-//                        margin={{
-//                            top: 5, right: 30, left: 20, bottom: 5,
-//                        }}
-//                    >
-//                        {/* A background grid for better readability */}
-//                        <CartesianGrid strokeDasharray="3 3" /> 
-                        
-//                        {/* X-Axis: Time */}
-//                        <XAxis dataKey="time" /> 
-                        
-//                        {/* Y-Axis: Values */}
-//                        <YAxis /> 
-                        
-//                        {/* Tooltip: Shows details when hovering over the graph */}
-//                        <Tooltip /> 
-                        
-//                        {/* Legend: Shows which line corresponds to which reading */}
-//                        <Legend /> 
-                        
-//                        {/* Voltage Line (Blue) */}
-//                        <Line type="monotone" dataKey="voltage" stroke="#8884d8" name="Voltage (V)" dot={false} /> 
-                        
-//                        {/* Current Line (Green) */}
-//                        <Line type="monotone" dataKey="current" stroke="#82ca9d" name="Current (A)" dot={false} /> 
-                        
-//                        {/* Power Line (Red) */}
-//                        <Line type="monotone" dataKey="power" stroke="#ffc658" name="Power (W)" dot={false} /> 
-//                    </LineChart>
-//                </ResponsiveContainer>
-//            </div>
-//        </div>
-//    );
-//}
-
-//export default LiveReadings;
-
-
-
-
-
-
-
-import React, { useState, useEffect } from 'react';
-import './LiveReadings.css';
-import { 
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer
 } from 'recharts';
+import { Power, Zap, AlertTriangle } from 'lucide-react';
+import './LiveReadings.css';
 
-const HISTORY_LIMIT = 20; 
+const HISTORY_LIMIT = 20;
+const UPDATE_INTERVAL_MS = 1000;
 
-function LiveReadings() {
-    const [readings, setReadings] = useState({
-        voltage: 0.00,
-        current: 0.00,
-        power: 0.00
-    });
+// بيانات الأجهزة
+const initialDevices = [
+    { id: 1, name: "Living Room AC", voltage: 0, current: 0, power: 0, status: 'ON' },
+    { id: 2, name: "Kitchen Fridge", voltage: 0, current: 0, power: 0, status: 'ON' },
+    { id: 3, name: "Bedroom Heater", voltage: 0, current: 0, power: 0, status: 'OFF' },
+    { id: 4, name: "Water Pump", voltage: 0, current: 0, power: 0, status: 'ON' },
+];
 
-    const [historyData, setHistoryData] = useState([]); 
+// زرار ON / OFF
+const ControlToggle = React.memo(({ deviceId, currentStatus, onToggle }) => {
+    const isChecked = currentStatus === 'ON';
+
+    const handleToggle = (e) => {
+        e.stopPropagation();
+        onToggle(deviceId, isChecked ? 'OFF' : 'ON');
+    };
+
+    return ( <
+        label className = "toggle-switch"
+        onClick = { e => e.stopPropagation() } >
+        <
+        input type = "checkbox"
+        checked = { isChecked }
+        onChange = { handleToggle }
+        /> <
+        span className = "slider round" > < /span> <
+        /label>
+    );
+});
+
+// صف الجهاز
+const DeviceRow = React.memo(({ device, onToggle, isSelected, onSelect }) => {
+    const isOnline = device.status === 'ON';
+    const rowClass = `device-row ${isSelected ? 'selected-row' : ''}`;
+
+    return ( <
+        tr className = { rowClass }
+        onClick = {
+            () => onSelect(device.id) } >
+        <
+        td > { device.name } < /td> <
+        td > { device.voltage.toFixed(2) }
+        V < /td> <
+        td > { device.current.toFixed(2) }
+        A < /td> <
+        td > { device.power.toFixed(2) }
+        W < /td> <
+        td >
+        <
+        span className = { `status-label ${isOnline ? 'online-label' : 'offline-label'}` } > { isOnline ? 'Active' : 'Off' } <
+        /span> <
+        /td> <
+        td >
+        <
+        ControlToggle deviceId = { device.id }
+        currentStatus = { device.status }
+        onToggle = { onToggle }
+        /> <
+        /td> <
+        /tr>
+    );
+});
+
+export default function LiveReadings() {
+    const [devices, setDevices] = useState(initialDevices);
+    const [historyData, setHistoryData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedDeviceId, setSelectedDeviceId] = useState(null);
+    const [totalPower, setTotalPower] = useState(0);
 
-    const generateDummyData = () => {
+    // 🟢 Dummy API (محاكاة API عادي)
+    const fetchData = useCallback(async() => {
+        try {
+            // محاكاة تأخير API
+            await new Promise(resolve => setTimeout(resolve, 300));
 
-        const dummyVoltage = (Math.random() * 5 + 225).toFixed(2); // V ~ 225 to 230
-        const dummyCurrent = (Math.random() * 0.5 + 1).toFixed(2);   // A ~ 1 to 1.5
-        const dummyPower = (parseFloat(dummyVoltage) * parseFloat(dummyCurrent)).toFixed(2);
-        
-        return {
-            voltage: parseFloat(dummyVoltage),
-            current: parseFloat(dummyCurrent),
-            power: parseFloat(dummyPower)
-        };
-    };
+            const voltage = 220 + Math.random() * 5;
+            const current = 1 + Math.random();
+            const power = voltage * current;
 
-    const fetchData = async () => {
-        await new Promise(resolve => setTimeout(resolve, 300)); 
+            setDevices(prev =>
+                prev.map(d => ({
+                    ...d,
+                    voltage,
+                    current,
+                    power: d.status === 'ON' ? power : 0
+                }))
+            );
 
-        const data = generateDummyData();
-        
-        setReadings(data);
-        
-        const newReading = {
-            ...data,
-            time: new Date().toLocaleTimeString('en-US', { hour12: false, second: '2-digit', minute: '2-digit' })
-        };
+            setTotalPower(power);
 
-        setHistoryData(prevData => {
-            const updatedData = [...prevData, newReading];
-            if (updatedData.length > HISTORY_LIMIT) {
-                // إزالة أقدم نقطة بيانات
-                return updatedData.slice(updatedData.length - HISTORY_LIMIT);
-            }
-            return updatedData;
-        });
-        
-        setIsLoading(false);
-    };
+            setHistoryData(prev => {
+                const newPoint = {
+                    time: new Date().toLocaleTimeString(),
+                    "Total Power": power
+                };
 
-    useEffect(() => {
-        fetchData(); 
+                const updated = [...prev, newPoint];
+                return updated.length > HISTORY_LIMIT ?
+                    updated.slice(updated.length - HISTORY_LIMIT) :
+                    updated;
+            });
 
-        const intervalId = setInterval(fetchData, 1000);
-
-        return () => clearInterval(intervalId);
+            setIsLoading(false);
+        } catch (err) {
+            console.error(err);
+            setIsLoading(false);
+        }
     }, []);
 
+    useEffect(() => {
+        fetchData();
+        const id = setInterval(fetchData, UPDATE_INTERVAL_MS);
+        return () => clearInterval(id);
+    }, [fetchData]);
+
+    const summaryReadings = useMemo(() => ([
+        { title: "Total Devices", value: devices.length, unit: "Devices", color: "#4a148c", icon: < Zap / > },
+        { title: "Total Power", value: totalPower.toFixed(2), unit: "W", color: "#ff8f00", icon: < Power / > },
+        { title: "System Status", value: "Normal", unit: "", color: "#2e7d32", icon: < AlertTriangle / > },
+    ]), [devices.length, totalPower]);
+
+    const toggleDeviceState = (id, state) => {
+        setDevices(prev =>
+            prev.map(d => d.id === id ? {...d, status: state } : d)
+        );
+    };
+
     if (isLoading) {
-        return <div className="loading-state">Loading live data... ⏳</div>;
+        return <div className = "loading-state" > Loading live data...⏳ < /div>;
     }
 
-    return (
-        <div className="live-readings-container">
-            <header className="system-header">
-                <div className="logo-section">
-                    <h2 className="logo">Live Readings</h2>
-                    <p className="logo-subtitle">Real-time Electrical Monitoring System</p>
-                </div>
-                <div className="status-section online">
-                    <span className="status-dot"></span>
-                    <span className="status-text">SYSTEM ONLINE</span>
-                </div>
-            </header>
-            {/* قراءات البيانات الحالية */}
-            <div className="reading-cards-wrapper">
-                <div className="reading-card voltage">
-                    <h3>Voltage</h3>
-                    <p>{readings.voltage.toFixed(2)} <span>V</span></p>
-                </div>
-                
-                <div className="reading-card current">
-                    <h3>Current</h3>
-                    <p>{readings.current.toFixed(2)} <span>A</span></p>
-                </div>
-                
-                <div className="reading-card power">
-                    <h3>Power</h3>
-                    <p>{readings.power.toFixed(2)} <span>W</span></p>
-                </div>
-            </div>
+    return ( <
+        div className = "live-readings-container" >
+        <
+        h2 > Live Readings < /h2>
 
-            <p className="last-update">Last updated: {new Date().toLocaleTimeString()}</p>
+        <
+        div className = "reading-cards-wrapper" > {
+            summaryReadings.map(card => ( <
+                div key = { card.title }
+                className = "reading-card"
+                style = {
+                    { borderLeftColor: card.color } } >
+                <
+                h3 > { card.title } < /h3> <
+                p style = {
+                    { color: card.color } } > { card.value } < span > { card.unit } < /span> <
+                /p> <
+                /div>
+            ))
+        } <
+        /div>
 
-            {/* -------------------- جزء الرسم البياني -------------------- */}
-            <div className="live-graph-container" style={{ width: '95%',margin:'auto', height: 260, marginTop: '30px', padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
-                <h3>Real-Time Readings Plot</h3>
-                {/* ResponsiveContainer لضمان ملاءمة الرسم البياني لحجم الشاشة */}
-                <ResponsiveContainer width="100%" height="80%">
-                    <LineChart
-                        data={historyData}
-                        margin={{ top: 5, right: 30, left:-5, bottom: 0 }}
-                    >
-                        {/* شبكة الخلفية */}
-                        <CartesianGrid strokeDasharray="3 3" /> 
-                        
-                        {/* محور X (الزمن) */}
-                        <XAxis dataKey="time" /> 
-                        
-                        {/* محور Y (القراءات) */}
-                        <YAxis /> 
-                        
-                        {/* التلميح الذي يظهر عند المرور فوق النقاط */}
-                        <Tooltip /> 
-                        
-                        {/* وسيلة الإيضاح */}
-                        <Legend /> 
-                        
-                        {/* خط الجهد (أزرق) */}
-                        <Line type="monotone" dataKey="voltage" stroke="#4a148c" name="Voltage (V)" dot={false} strokeWidth={2} /> 
-                        
-                        {/* خط التيار (أخضر) */}
-                        <Line type="monotone" dataKey="current" stroke="#2e7d32" name="Current (A)" dot={false} strokeWidth={2} /> 
-                        
-                        {/* خط الطاقة (أصفر/برتقالي) */}
-                        <Line type="monotone" dataKey="power" stroke="#ff8f00" name="Power (W)" dot={false} strokeWidth={2} /> 
-                    </LineChart>
-                </ResponsiveContainer>
-            </div>
-            {/* ----------------------------------------------------------- */}
-        </div>
+        <
+        div className = "live-graph-container" >
+        <
+        h3 > Total Power Consumption < /h3> <
+        ResponsiveContainer width = "100%"
+        height = { 250 } >
+        <
+        LineChart data = { historyData } >
+        <
+        CartesianGrid strokeDasharray = "3 3" / >
+        <
+        XAxis dataKey = "time" / >
+        <
+        YAxis / >
+        <
+        Tooltip / >
+        <
+        Legend / >
+        <
+        Line type = "monotone"
+        dataKey = "Total Power"
+        stroke = "#ff8f00"
+        strokeWidth = { 3 }
+        dot = { false }
+        /> <
+        /LineChart> <
+        /ResponsiveContainer> <
+        /div>
+
+        <
+        div className = "devices-table-container" >
+        <
+        table className = "devices-table" >
+        <
+        thead >
+        <
+        tr >
+        <
+        th > Device < /th> <
+        th > Voltage < /th> <
+        th > Current < /th> <
+        th > Power < /th> <
+        th > Status < /th> <
+        th > Control < /th> <
+        /tr> <
+        /thead> <
+        tbody > {
+            devices.map(device => ( <
+                DeviceRow key = { device.id }
+                device = { device }
+                onToggle = { toggleDeviceState }
+                onSelect = { setSelectedDeviceId }
+                isSelected = { selectedDeviceId === device.id }
+                />
+            ))
+        } <
+        /tbody> <
+        /table> <
+        /div> <
+        /div>
     );
 }
-
-export default LiveReadings;
-

@@ -26,13 +26,6 @@ export default function HomePage() {
             color: "#FFD700" // ذهبي
         },
         { 
-            title: "Average Temperature", 
-            value: "24.5", 
-            unit: "°C", 
-            icon: <Thermometer size={30} />, 
-            color: "#00BFFF" // أزرق (لون الـ accent)
-        },
-        { 
             title: "Active Devices", 
             value: "8", 
             unit: "of 15", 
