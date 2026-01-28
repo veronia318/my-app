@@ -25,12 +25,80 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 10px auto;
     border-radius: 15px;
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .live-readings-container h2 {
     font-weight: 700;
     font-size: 28px;
     margin-bottom: 5px;
+    animation: slideDown 0.8s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==================== Loading & Error States ==================== */
+
+.loading-state {
+    text-align: center;
+    font-size: 20px;
+    padding: 50px;
+    color: var(--text-light);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.error-state {
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 2px solid var(--color-danger);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: var(--color-danger);
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
 }
 
 
@@ -48,12 +116,54 @@
     border-radius: 12px;
     background-color: var(--bg-secondary);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     border-left: 4px solid var(--color-voltage);
+    animation: scaleIn 0.5s ease-out backwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.reading-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.reading-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.reading-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.reading-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.reading-card:hover::before {
+    left: 100%;
 }
 
 .reading-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
 }
 
 .reading-card h3 {
@@ -68,6 +178,18 @@
     font-size: 32px;
     font-weight: 800;
     margin: 0;
+    animation: countUp 1s ease-out;
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .reading-card p span {
@@ -98,6 +220,18 @@
     border-radius: 12px;
     margin-top: 40px !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    animation: slideUp 0.6s ease-out 0.4s both;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .live-graph-container h3 {
@@ -117,6 +251,7 @@
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     overflow: hidden;
+    animation: slideUp 0.6s ease-out 0.5s both;
 }
 
 .devices-table {
@@ -135,8 +270,40 @@
 
 .device-row {
     border-bottom: 1px solid #2e2e40;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
+    animation: slideInLeft 0.4s ease-out backwards;
+}
+
+.device-row:nth-child(1) {
+    animation-delay: 0.6s;
+}
+
+.device-row:nth-child(2) {
+    animation-delay: 0.7s;
+}
+
+.device-row:nth-child(3) {
+    animation-delay: 0.8s;
+}
+
+.device-row:nth-child(4) {
+    animation-delay: 0.9s;
+}
+
+.device-row:nth-child(5) {
+    animation-delay: 1s;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .device-row:last-child {
@@ -145,6 +312,7 @@
 
 .device-row:hover {
     background-color: #232338;
+    transform: translateX(5px);
 }
 
 .device-row.selected-row {
@@ -164,6 +332,7 @@
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
+    animation: fadeIn 0.8s ease-in;
 }
 
 .online-label {
@@ -200,7 +369,7 @@
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    transition: 0.4s;
+    transition: all 0.4s ease;
     border-radius: 34px;
 }
 
@@ -212,14 +381,207 @@
     left: 4px;
     bottom: 4px;
     background-color: white;
-    transition: 0.4s;
+    transition: all 0.4s ease;
     border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 input:checked+.slider {
     background-color: var(--color-online);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
 }
 
 input:checked+.slider:before {
     transform: translateX(26px);
+}
+
+.toggle-switch:hover .slider {
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+
+/* ==================== Modal ==================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    animation: modalSlideIn 0.4s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 2px solid #2e2e40;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 24px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.device-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background-color: var(--bg-primary);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid #2e2e40;
+    transition: all 0.3s ease;
+    animation: scaleIn 0.4s ease-out backwards;
+}
+
+.stat-box:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.stat-box:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.stat-box:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.stat-box:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.stat-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.stat-box h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: var(--text-dark);
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-light);
+}
+
+.text-success {
+    color: var(--color-online);
+}
+
+.text-danger {
+    color: var(--color-danger);
+}
+
+.device-graph {
+    background-color: var(--bg-primary);
+    padding: 20px;
+    border-radius: 10px;
+    animation: slideUp 0.5s ease-out 0.3s both;
+}
+
+.device-graph h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: var(--text-light);
+    border-bottom: 1px solid #2e2e40;
+    padding-bottom: 10px;
+}
+
+
+/* ==================== Responsive Design ==================== */
+
+@media (max-width: 768px) {
+    .live-readings-container {
+        width: 95vw;
+        padding: 20px;
+    }
+    .reading-cards-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .device-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .modal-content {
+        width: 95%;
+    }
+}
+
+
+/* ==================== Scrollbar Styling ==================== */
+
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #777;
 }
