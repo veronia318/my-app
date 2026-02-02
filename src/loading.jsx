@@ -1,7 +1,7 @@
 // Loading.js
 
-import React from 'react';
-import './loading.css';
+import React from "react";
+import "./loading.css";
 
 export default function LoadingPage() {
   return (
@@ -31,7 +31,9 @@ export default function LoadingPage() {
           </div>
         </div>
       </section>
-       <div><p className="loading-text">Loading Powerstream Home...</p></div> 
+      <div>
+        <p className="loading-text">Loading Powerstream Home...</p>
+      </div>
     </div>
   );
 }

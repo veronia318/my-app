@@ -577,3 +577,79 @@
     background: #020617;
     color: #ff4d4d;
 }
+
+.add-device-button {
+    background: #10b981;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.add-device-button:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.add-device-form-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.add-device-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.add-device-form h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.add-device-form input,
+.add-device-form select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+}
+
+.add-device-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.device-status-display {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.status-badge {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.status-badge.active {
+    background: #10b981;
+    color: white;
+}
+
+.status-badge.inactive {
+    background: #6b7280;
+    color: white;
+}
