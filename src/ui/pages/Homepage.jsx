@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Bolt, Zap, Activity } from "lucide-react";
-import "./Homepage.css";
+import "../styles/Homepage.css";
+import { useAuth } from "../../application/auth/AuthContext";
+import API_ENDPOINTS, {
+  fetchWithAuth,
+  normalizeDevice,
+  USE_JSON_SERVER,
+} from "../../infrastructure/api/api.config";
 
-// مكون البطاقة (Widget) لإعادة الاستخدام
 const HomeWidget = ({ title, value, unit, icon, color }) => (
   <div className="home-widget" style={{ borderLeftColor: color }}>
     <div className="widget-header">
@@ -22,43 +27,56 @@ export default function HomePage() {
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
 
-  // جلب البيانات من API
   useEffect(() => {
-    const fetchDevices = async () => {
-      try {
-        const response = await fetch(
-          "https://69763da3c0c36a2a99509b94.mockapi.io/devices",
-        );
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const data = await response.json();
-        setDevices(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
+    if (user) {
+      fetchUserDevices();
+      const interval = setInterval(fetchUserDevices, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [user]);
 
-    fetchDevices();
-    // تحديث البيانات كل 30 ثانية
-    const interval = setInterval(fetchDevices, 30000);
-    return () => clearInterval(interval);
-  }, []);
+  const fetchUserDevices = async () => {
+    try {
+      const roomsResponse = await fetchWithAuth(API_ENDPOINTS.ROOMS);
+      if (!roomsResponse.ok) throw new Error("Failed to fetch rooms");
+      const allRooms = await roomsResponse.json();
 
-  // حساب الإحصائيات من البيانات الحقيقية
+      const userRooms = USE_JSON_SERVER
+        ? allRooms.filter((room) => room.userId === user.id)
+        : allRooms;
+
+      const userRoomIds = userRooms.map((room) => room._id || room.id);
+
+      const devicesResponse = await fetchWithAuth(API_ENDPOINTS.DEVICES);
+      if (!devicesResponse.ok) throw new Error("Failed to fetch devices");
+      const allDevices = await devicesResponse.json();
+
+      const userDevices = allDevices.filter((device) =>
+        userRoomIds.includes(device.roomId),
+      );
+
+      const normalizedDevices = userDevices.map(normalizeDevice);
+      setDevices(normalizedDevices);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching devices:", err);
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
   const calculateStats = () => {
     if (!devices.length)
       return { totalPower: 0, activeDevices: 0, totalCurrent: 0 };
 
     const activeDevices = devices.filter((d) => d.status === "ON").length;
 
-    // حساب إجمالي الطاقة للأجهزة المشغلة
     const totalPower = devices
       .filter((d) => d.status === "ON")
       .reduce((sum, device) => sum + (parseFloat(device.power) || 0), 0);
 
-    // حساب إجمالي التيار
     const totalCurrent = devices
       .filter((d) => d.status === "ON")
       .reduce((sum, device) => sum + (parseFloat(device.current) || 0), 0);
@@ -71,31 +89,26 @@ export default function HomePage() {
     };
   };
 
-  // الحصول على التنبيهات
   const getAlerts = () => {
     const alerts = [];
 
     devices.forEach((device) => {
-      // أجهزة متوقفة (OFF)
       if (device.status === "OFF") {
         alerts.push(`Device '${device.name}' is turned OFF.`);
       }
 
-      // استهلاك طاقة عالي (أكثر من 70W)
       if (device.status === "ON" && parseFloat(device.power) > 70) {
         alerts.push(
           `High power consumption in ${device.name}: ${device.power}W`,
         );
       }
 
-      // تيار عالي (أكثر من 50A)
       if (device.status === "ON" && parseFloat(device.current) > 50) {
         alerts.push(
           `High current detected in ${device.name}: ${device.current}A`,
         );
       }
 
-      // جهد منخفض (أقل من 200V)
       if (device.status === "ON" && parseFloat(device.voltage) < 200) {
         alerts.push(
           `Low voltage warning for ${device.name}: ${device.voltage}V`,
@@ -103,7 +116,7 @@ export default function HomePage() {
       }
     });
 
-    return alerts.slice(0, 5); // أول 5 تنبيهات فقط
+    return alerts.slice(0, 5);
   };
 
   const stats = calculateStats();
@@ -150,7 +163,7 @@ export default function HomePage() {
       <p className="subtitle">
         {loading
           ? "Loading your home's status..."
-          : "Welcome back! Quick glance at your home's status."}
+          : `Welcome back${user ? ", " + (user.name || user.firstname || "User") : ""}! Quick glance at your home's status.`}
       </p>
 
       <div className="widgets-grid">
@@ -170,11 +183,20 @@ export default function HomePage() {
         </div>
       )}
 
-      {alerts.length === 0 && !loading && (
+      {alerts.length === 0 && !loading && devices.length > 0 && (
         <div className="alerts-section" style={{ borderTopColor: "#32CD32" }}>
           <h2 style={{ color: "#32CD32" }}>✓ All Systems Normal</h2>
           <p style={{ color: "#888", margin: 0 }}>
             No alerts at this time. Everything is running smoothly!
+          </p>
+        </div>
+      )}
+
+      {!loading && devices.length === 0 && (
+        <div className="alerts-section" style={{ borderTopColor: "#00BFFF" }}>
+          <h2 style={{ color: "#00BFFF" }}>📊 No Devices Yet</h2>
+          <p style={{ color: "#888", margin: 0 }}>
+            Add rooms and devices to see your smart home overview!
           </p>
         </div>
       )}

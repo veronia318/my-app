@@ -1,7 +1,5 @@
-// Loading.js
-
 import React from "react";
-import "./loading.css";
+import "../styles/loading.css";
 
 export default function LoadingPage() {
   return (

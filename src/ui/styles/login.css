@@ -1,11 +1,11 @@
-liveReadings.css
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 80px);
-    padding-top: 20px;
+liveReadings.css .login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  padding-top: 20px;
 }
+
 .form {
   display: flex;
   flex-direction: column;
@@ -16,15 +16,17 @@ liveReadings.css
   background-color: white;
   border: 1px solid #333;
 }
+
 .login-container .form {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    position: absolute;
-    width: 300px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  position: absolute;
+  width: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
 }
+
 .title {
   font-size: 28px;
   font-weight: 600;
@@ -33,7 +35,7 @@ liveReadings.css
   display: flex;
   align-items: center;
   padding-left: 30px;
-  color:  #7979c3;
+  color: #00bfff;
 }
 
 .title::before {
@@ -55,10 +57,10 @@ liveReadings.css
   width: 16px;
   border-radius: 50%;
   left: 0px;
-  background-color: #7979c3;
+  background-color: #00bfff;
 }
 
-.message, 
+.message,
 .signin {
   font-size: 14.5px;
   color: rgba(0, 0, 0, 0.7);
@@ -74,7 +76,7 @@ liveReadings.css
 }
 
 .signin a {
-  color: #323276;
+  color: #00bfff;
 }
 
 .flex {
@@ -89,7 +91,7 @@ liveReadings.css
 
 .form label .input {
   background-color: white;
-  color: #fff;
+  color: #111;
   width: 100%;
   padding: 20px 05px 05px 10px;
   outline: 0;
@@ -108,8 +110,6 @@ liveReadings.css
   transition: 0.3s ease;
 }
 
-
-
 .form label .input:focus + span,
 .form label .input:valid + span {
   color: #7979c3;
@@ -122,6 +122,16 @@ liveReadings.css
   font-size: medium;
 }
 
+/* Placeholder color for inputs */
+
+.form label .input::placeholder,
+.input::-webkit-input-placeholder,
+.input:-ms-input-placeholder,
+.input::-ms-input-placeholder {
+  color: #6b6b6b;
+  opacity: 1;
+}
+
 .submit {
   border: none;
   outline: none;
@@ -129,13 +139,13 @@ liveReadings.css
   border-radius: 10px;
   color: #fff;
   font-size: 16px;
-  transform: .3s ease;
-  background-color: #7979c3;
+  transform: 0.3s ease;
+  background-color: #00bfff;
   cursor: pointer;
 }
 
 .submit:hover {
-  background-color: rgb(255, 173, 22);
+  background-color: #00bfff;
   font-weight: 700;
 }
 
@@ -144,10 +154,8 @@ liveReadings.css
     transform: scale(0.9);
     opacity: 1;
   }
-
   to {
     transform: scale(1.8);
     opacity: 0;
   }
 }
-

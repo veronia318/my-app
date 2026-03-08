@@ -1,0 +1,236 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Veronia",
+      "email": "vero@test.com",
+      "password": "123456"
+    },
+    {
+      "id": "2",
+      "name": "Sara",
+      "email": "sara@test.com",
+      "password": "123456"
+    },
+    {
+      "id": "d651",
+      "name": "mico HEFZY",
+      "email": "MICOhefzy185@gmail.com",
+      "password": "Mico123"
+    },
+    {
+      "id": "5ce4",
+      "name": "Hefzy Moris",
+      "email": "Hefzy@gmail.com",
+      "password": "01228950037"
+    },
+    {
+      "id": "4eaf",
+      "name": "mariam abdalla",
+      "email": "mar_2001@gmail.com",
+      "password": "123456789"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "1",
+      "name": "Kitchen",
+      "userId": "1",
+      "image": "https://i.pinimg.com/1200x/47/29/f0/4729f036aeec4b920c771f42694f7a18.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Bathroom",
+      "userId": "1",
+      "image": "https://i.pinimg.com/736x/20/d6/9a/20d69a7005bcea295ccfdcd31a3f5cc5.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Bedroom",
+      "userId": "2",
+      "image": "https://img.freepik.com/free-photo/room-interior-hotel-bedroom_23-2150683419.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Living Room",
+      "userId": "2",
+      "image": "https://img.freepik.com/free-photo/modern-living-room-with-pink-walls-sofa-natural-light_23-2151982531.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Garage",
+      "userId": "2",
+      "image": "https://i.pinimg.com/1200x/e9/9f/2e/e99f2e38664c82f05c5c16652b3575a3.jpg"
+    },
+    {
+      "id": "16aa",
+      "name": "Bedroom",
+      "userId": "5ce4",
+      "image": "https://hips.hearstapps.com/hmg-prod/images/barfield-house-tour-gramercy-park-bedroom-jpg-1618419012.jpg?crop=0.668xw:1.00xh;0.167xw,0&resize=1120:*"
+    },
+    {
+      "id": "284c",
+      "name": "Bathroom",
+      "userId": "5ce4",
+      "image": "https://www.shutterstock.com/image-photo/luxurious-bathroom-freestanding-bathtub-600nw-2472337571.jpg"
+    }
+  ],
+  "devices": [
+    {
+      "id": "1",
+      "name": "Refrigerator",
+      "roomId": "1",
+      "userId": "1",
+      "status": "ON",
+      "voltage": 230,
+      "current": 18.2,
+      "power": 150,
+      "yearlyAverage": 145.5,
+      "image": null,
+      "state": "on",
+      "latestReading": {
+        "voltage": 230,
+        "current": 18.2,
+        "power": 150
+      }
+    },
+    {
+      "id": "2",
+      "name": "LED Light",
+      "roomId": "1",
+      "userId": "1",
+      "status": "ON",
+      "voltage": 210,
+      "current": 5,
+      "power": 100,
+      "yearlyAverage": 150.5,
+      "image": null,
+      "state": "on",
+      "latestReading": {
+        "voltage": 210,
+        "current": 5,
+        "power": 100
+      }
+    },
+    {
+      "id": "3",
+      "name": "Television",
+      "roomId": "4",
+      "userId": "2",
+      "state": "on",
+      "image": null,
+      "latestReading": {
+        "voltage": 210,
+        "current": 5,
+        "power": 200
+      },
+      "yearlyAverage": 180.5
+    },
+    {
+      "id": "4",
+      "name": "Led",
+      "roomId": "3",
+      "userId": "2",
+      "state": "on",
+      "image": null,
+      "latestReading": {
+        "voltage": 210,
+        "current": 5,
+        "power": 50
+      },
+      "yearlyAverage": 200.5
+    },
+    {
+      "id": "5",
+      "name": "Water Motor",
+      "roomId": "2",
+      "userId": "1",
+      "status": "ON",
+      "voltage": 210,
+      "current": 10,
+      "power": 100,
+      "yearlyAverage": 250,
+      "image": null,
+      "state": "off",
+      "latestReading": {
+        "voltage": 210,
+        "current": 10,
+        "power": 100
+      }
+    },
+    {
+      "id": "6",
+      "name": "Water Heater",
+      "roomId": "2",
+      "userId": "1",
+      "status": "ON",
+      "voltage": 210,
+      "current": 55,
+      "power": 1200,
+      "yearlyAverage": 170.5,
+      "image": null,
+      "state": "off",
+      "latestReading": {
+        "voltage": 210,
+        "current": 55,
+        "power": 1200
+      }
+    },
+    {
+      "id": "9d27",
+      "name": "Led",
+      "roomId": "5",
+      "userId": "2",
+      "state": "on",
+      "image": null,
+      "latestReading": {
+        "voltage": 210,
+        "current": 55,
+        "power": 1200
+      },
+      "yearlyAverage": 160
+    },
+    {
+      "id": "187e",
+      "name": "Fan",
+      "roomId": "16aa",
+      "userId": "5ce4",
+      "state": "on",
+      "image": null,
+      "latestReading": {
+        "voltage": 200,
+        "current": 10,
+        "power": 2000
+      },
+      "yearlyAverage": 0
+    },
+    {
+      "id": "3e2f",
+      "name": "Led",
+      "roomId": "284c",
+      "userId": "5ce4",
+      "state": "on",
+      "image": null,
+      "latestReading": {
+        "voltage": 210,
+        "current": 5,
+        "power": 1050
+      },
+      "yearlyAverage": 0
+    },
+    {
+      "id": "e5c2",
+      "name": "fan",
+      "roomId": "1",
+      "userId": "1",
+      "state": "off",
+      "image": null,
+      "latestReading": {
+        "voltage": 0,
+        "current": 0,
+        "power": 0
+      },
+      "yearlyAverage": 0
+    }
+  ]
+}

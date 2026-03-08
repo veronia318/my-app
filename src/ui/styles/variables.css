@@ -1,0 +1,45 @@
+:root {
+  /* primary palette */
+  --color-primary: #00bfff;
+  --color-secondary: rgb(255, 173, 22);
+  --color-warning: #ffd700;
+  --color-success: #32cd32;
+  --color-info: #0099cc;
+  --color-alert: #ff4500;
+  --color-danger: #f44336;
+  --color-danger-dark: #d32f2f;
+  --color-success-dark: #45a049;
+
+  /* greys & neutrals */
+  --color-bg-light: #f7f7f7;
+  --color-bg-dark: #1e1e2d;
+  --color-card-bg: #282c34;
+  --color-navbar-bg: #20232a;
+  --color-dark-grey: #3d3d3d;
+  --color-grey: #777;
+  --color-grey-dark: #666;
+  --color-text-default: #333;
+  --color-text-muted: #a0a0a0;
+  --color-text-light: #e0e0e0;
+  --color-text-lighter: #ccc;
+  --color-text-secondary: #888;
+  --color-text-placeholder: #6b6b6b;
+
+  --color-white: #fff;
+  --color-button-danger: #b90000;
+  --color-button-danger-hover: #ff3333;
+  --color-form-border: #333;
+  --color-form-focus: #7979c3;
+
+  /* live readings palette */
+  --color-voltage: #4a148c;
+  --color-current: #2e7d32;
+  --color-power: #ff8f00;
+  --color-online: #4caf50;
+  --color-selection: #3f51b5;
+
+  /* live readings custom backgrounds */
+  --color-live-bg-primary: #12121e;
+  --color-live-bg-secondary: #1e1e30;
+  --color-live-text-dark: #b3b3b3;
+}
