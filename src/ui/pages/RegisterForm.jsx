@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/RegisterForm.css";
-import { useAuth } from "../../application/auth/AuthContext";
 import { apiHelpers } from "../../infrastructure/api/api.config";
 
 function RegisterForm() {
@@ -16,7 +15,6 @@ function RegisterForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,21 +24,33 @@ function RegisterForm() {
     }));
   };
 
+  const validateForm = () => {
+    if (formData.password !== formData.confirmPassword) {
+      return "Passwords do not match!";
+    }
+
+    if (formData.password.length < 6) {
+      return "Password must be at least 6 characters.";
+    }
+
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match!");
-      setLoading(false);
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
+    setLoading(true);
+
     try {
       const result = await apiHelpers.register({
-        firstname: formData.firstname,
-        lastname: formData.lastname,
+        name: `${formData.firstname} ${formData.lastname}`, // ✅ FIX
         email: formData.email,
         password: formData.password,
       });
@@ -48,12 +58,8 @@ function RegisterForm() {
       setLoading(false);
 
       if (result.ok) {
-        if (result.data.token && result.data.user) {
-          login(result.data.user, result.data.token);
-          navigate("/");
-        } else {
-          navigate("/login");
-        }
+        // redirect to login after success
+        navigate("/login");
       } else {
         setError(result.error || "Registration failed.");
       }
@@ -140,7 +146,7 @@ function RegisterForm() {
         </button>
 
         <p className="signin-new">
-          Already have an account? <a href="/login">Signin</a>
+          Already have an account? <Link to="/login">Signin</Link>
         </p>
       </form>
     </div>

@@ -8,12 +8,15 @@ import API_ENDPOINTS, {
 import "../styles/UserProfile.css";
 
 export default function UserProfile() {
-  const { user, logout } = useAuth();
+  const { user, logout, login } = useAuth();
   const navigate = useNavigate();
+
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -31,14 +34,22 @@ export default function UserProfile() {
     setSuccess("");
   };
 
-  // Handle profile update
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     setSuccess("");
 
-    // Validate password confirmation
+    if (
+      formData.name === user.name &&
+      formData.email === user.email &&
+      !formData.password
+    ) {
+      setError("No changes made.");
+      setLoading(false);
+      return;
+    }
+
     if (formData.password && formData.password !== formData.confirmPassword) {
       setError("Passwords do not match!");
       setLoading(false);
@@ -51,7 +62,6 @@ export default function UserProfile() {
         email: formData.email,
       };
 
-      // Add password only if user entered a new one
       if (formData.password) {
         updateData.password = formData.password;
       }
@@ -67,17 +77,25 @@ export default function UserProfile() {
         throw new Error(data.message || "Failed to update profile");
       }
 
-      // Update user data in localStorage
+      // const updatedUser = {
+      //   ...user,
+      //   name: data.user.name,
+      //   email: data.user.email,
+      // };
+
       const updatedUser = {
         ...user,
+        id: data.user._id || user.id,
         name: data.user.name,
         email: data.user.email,
+        image: data.user.image,
       };
+      login(updatedUser, localStorage.getItem("authToken"));
 
-      localStorage.setItem("userData", JSON.stringify(updatedUser));
-
-      setSuccess("Profile updated successfully!");
+      setSuccess(data.message);
+      setShowPopup(true);
       setIsEditing(false);
+
       setFormData({
         ...formData,
         password: "",
@@ -86,9 +104,8 @@ export default function UserProfile() {
 
       setLoading(false);
 
-      // Reload page after 2 seconds to refresh context
       setTimeout(() => {
-        window.location.reload();
+        setShowPopup(false);
       }, 2000);
     } catch (err) {
       console.error("Update error:", err);
@@ -97,22 +114,12 @@ export default function UserProfile() {
     }
   };
 
-  // Handle account deletion
+  // ✅ UPDATED DELETE (no alert)
   const handleDelete = async () => {
-    const confirmDelete = window.confirm(
-      "⚠️ Are you sure you want to delete your account?\n\nThis will permanently delete:\n- Your account\n- All your rooms\n- All your devices\n- All your readings\n\nThis action CANNOT be undone!",
-    );
-
-    if (!confirmDelete) return;
-
     setLoading(true);
 
     try {
       const token = localStorage.getItem("authToken");
-
-      if (!token) {
-        throw new Error("No authentication token found. Please login again.");
-      }
 
       const response = await fetch(API_ENDPOINTS.DELETE_USER, {
         method: "DELETE",
@@ -122,27 +129,18 @@ export default function UserProfile() {
         },
       });
 
-      const contentType = response.headers.get("content-type");
-      let data = null;
-
-      if (contentType && contentType.includes("application/json")) {
-        const text = await response.text();
-        if (text) {
-          data = JSON.parse(text);
-        }
-      }
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data?.message || `Server error: ${response.status}`);
+        throw new Error(data?.message || "Delete failed");
       }
 
-      alert("Account deleted successfully!");
       localStorage.clear();
       logout();
       navigate("/login");
     } catch (err) {
       console.error("❌ Delete error:", err);
-      alert("Failed to delete account: " + err.message);
+      setError(err.message);
       setLoading(false);
     }
   };
@@ -158,16 +156,13 @@ export default function UserProfile() {
 
         {error && <div className="alert alert-error">⚠️ {error}</div>}
 
-        {success && <div className="alert alert-success">✅ {success}</div>}
-
         <form onSubmit={handleUpdate} className="profile-form">
           <div className="form-group">
-            <label htmlFor="name">
+            <label>
               <User size={18} /> Name
             </label>
             <input
               type="text"
-              id="name"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -177,12 +172,11 @@ export default function UserProfile() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">
+            <label>
               <Mail size={18} /> Email
             </label>
             <input
               type="email"
-              id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -194,30 +188,26 @@ export default function UserProfile() {
           {isEditing && (
             <>
               <div className="form-group">
-                <label htmlFor="password">
-                  <Lock size={18} /> New Password (Optional)
+                <label>
+                  <Lock size={18} /> New Password
                 </label>
                 <input
                   type="password"
-                  id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Leave blank to keep current password"
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="confirmPassword">
-                  <Lock size={18} /> Confirm New Password
+                <label>
+                  <Lock size={18} /> Confirm Password
                 </label>
                 <input
                   type="password"
-                  id="confirmPassword"
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="Confirm new password"
                 />
               </div>
             </>
@@ -255,9 +245,7 @@ export default function UserProfile() {
                       confirmPassword: "",
                     });
                     setError("");
-                    setSuccess("");
                   }}
-                  disabled={loading}
                 >
                   Cancel
                 </button>
@@ -266,19 +254,56 @@ export default function UserProfile() {
           </div>
         </form>
 
+        {/* ✅ SUCCESS POPUP */}
+        {showPopup && (
+          <div className="popup-success">✅ Profile updated successfully!</div>
+        )}
+
+        {/* ✅ DELETE BUTTON */}
         <div className="danger-zone">
           <h3>⚠️ Danger Zone</h3>
-          <p>Once you delete your account, there is no going back.</p>
           <button
             className="btn btn-danger"
-            onClick={handleDelete}
-            disabled={loading}
+            onClick={() => setShowDeleteModal(true)}
           >
-            <Trash2 size={18} />
-            Delete Account
+            <Trash2 size={18} /> Delete Account
           </button>
         </div>
       </div>
+
+      {/* ✅ MODAL */}
+      {showDeleteModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2 style={{ color: "white" }}>⚠️ Delete Account</h2>
+            <p style={{ color: "white" }}>
+              This will permanently delete your account and all your data.
+              <br />
+              <strong style={{ color: "white" }}>
+                This action cannot be undone!
+              </strong>
+            </p>
+
+            <div className="modal-actions">
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowDeleteModal(false)}
+                disabled={loading}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="btn btn-danger"
+                onClick={handleDelete}
+                disabled={loading}
+              >
+                {loading ? "Deleting..." : "Yes, Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

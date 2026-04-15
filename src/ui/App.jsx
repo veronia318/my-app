@@ -17,6 +17,7 @@ import RoomDetails from "./pages/RoomDetails";
 import { AuthProvider } from "../application/auth/AuthContext";
 import ProtectedRoute from "../application/routing/ProtectedRoute";
 import UserProfile from "./pages/UserProfile";
+import AIAnalysis from "./pages/AIAnalysis";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -83,6 +84,7 @@ function App() {
             />
 
             <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="/ai-analysis" element={<AIAnalysis />} />
           </Routes>
         </div>
       </Router>

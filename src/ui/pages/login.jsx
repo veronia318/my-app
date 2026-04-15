@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/login.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../application/auth/AuthContext";
 import { apiHelpers } from "../../infrastructure/api/api.config";
 
@@ -79,7 +79,7 @@ function LoginPage() {
         </button>
 
         <p className="signin">
-          Don't have an account? <a href="/register">Signup</a>
+          Don't have an account? <Link to="/register">Signup</Link>
         </p>
       </form>
     </div>
