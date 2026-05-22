@@ -177,7 +177,7 @@
 /* Image area: fixed-height media stripe with cover-fit and accent border. */
 .room-image-container {
   width: 100%;
-  height: 180px;
+  height: 200px;
   position: relative;
   border-bottom: 2px solid rgb(255, 173, 22);
   flex-shrink: 0;

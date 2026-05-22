@@ -1,11 +1,33 @@
 /* RoomDetails.css */
 
 .room-details-container {
-  padding: 30px;
+  padding: 10px;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 10px auto;
   color: #e0e0e0;
   animation: fadeIn 0.6s ease-in;
+  border-radius: 20px;
+  position: relative;
+  min-height: 100vh;
+  padding: 30px;
+  color: #fff;
+  overflow: hidden;
+}
+.room-details-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  filter: blur(2px);
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+
+  z-index: 0;
+}
+.room-details-container > * {
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes fadeIn {
@@ -381,4 +403,69 @@
 .edit-device-btn:hover {
   background: rgba(0, 191, 255, 0.35);
   transform: scale(1.1);
+}
+
+/* Device title with emoji */
+.device-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.device-emoji {
+  font-size: 28px;
+  line-height: 1;
+}
+
+/* Readings grid — 3 columns */
+.device-readings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.reading-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.reading-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.reading-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Status badge update */
+.status-badge.active {
+  background: rgba(50, 205, 50, 0.15);
+  color: #32cd32;
+  border: 1px solid rgba(50, 205, 50, 0.3);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.inactive {
+  background: rgba(255, 80, 80, 0.15);
+  color: #ff5050;
+  border: 1px solid rgba(255, 80, 80, 0.3);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
 }

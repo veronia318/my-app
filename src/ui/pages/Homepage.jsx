@@ -37,27 +37,77 @@ export default function HomePage() {
     }
   }, [user]);
 
+  // const fetchUserDevices = async () => {
+  //   try {
+  //     const roomsResponse = await fetchWithAuth(API_ENDPOINTS.ROOMS);
+  //     if (!roomsResponse.ok) throw new Error("Failed to fetch rooms");
+  //     const allRooms = await roomsResponse.json();
+
+  //     const userRooms = USE_JSON_SERVER
+  //       ? allRooms.filter((room) => room.userId === user.id)
+  //       : allRooms;
+
+  //     const userRoomIds = userRooms.map((room) => room._id || room.id);
+
+  //     const devicesResponse = await fetchWithAuth(API_ENDPOINTS.DEVICES);
+  //     if (!devicesResponse.ok) throw new Error("Failed to fetch devices");
+  //     const allDevices = await devicesResponse.json();
+
+  //     const userDevices = allDevices.filter((device) =>
+  //       userRoomIds.includes(device.roomId),
+  //     );
+
+  //     const normalizedDevices = userDevices.map(normalizeDevice);
+  //     setDevices(normalizedDevices);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.error("Error fetching devices:", err);
+  //     setError(err.message);
+  //     setLoading(false);
+  //   }
+  // };
+
   const fetchUserDevices = async () => {
     try {
-      const roomsResponse = await fetchWithAuth(API_ENDPOINTS.ROOMS);
-      if (!roomsResponse.ok) throw new Error("Failed to fetch rooms");
-      const allRooms = await roomsResponse.json();
-
-      const userRooms = USE_JSON_SERVER
-        ? allRooms.filter((room) => room.userId === user.id)
-        : allRooms;
-
-      const userRoomIds = userRooms.map((room) => room._id || room.id);
-
       const devicesResponse = await fetchWithAuth(API_ENDPOINTS.DEVICES);
       if (!devicesResponse.ok) throw new Error("Failed to fetch devices");
-      const allDevices = await devicesResponse.json();
 
-      const userDevices = allDevices.filter((device) =>
-        userRoomIds.includes(device.roomId),
+      const devicesData = await devicesResponse.json();
+
+      const allDevices = USE_JSON_SERVER
+        ? Array.isArray(devicesData)
+          ? devicesData
+          : []
+        : Array.isArray(devicesData)
+          ? devicesData.flatMap((item) =>
+              item.devices ? item.devices : [item],
+            )
+          : [];
+
+      // ✅ Fetch latestReading for each device — same as LiveReadings
+      const devicesWithReadings = await Promise.all(
+        allDevices.map(async (device) => {
+          try {
+            const deviceId = device._id || device.id;
+            const readingResponse = await fetchWithAuth(
+              API_ENDPOINTS.DEVICE_WITH_LATEST_READING(deviceId),
+            );
+            if (readingResponse.ok) {
+              const deviceWithReading = await readingResponse.json();
+              return {
+                ...device,
+                latestReading:
+                  deviceWithReading.latestReading || device.latestReading,
+              };
+            }
+            return device;
+          } catch {
+            return device;
+          }
+        }),
       );
 
-      const normalizedDevices = userDevices.map(normalizeDevice);
+      const normalizedDevices = devicesWithReadings.map(normalizeDevice);
       setDevices(normalizedDevices);
       setLoading(false);
     } catch (err) {

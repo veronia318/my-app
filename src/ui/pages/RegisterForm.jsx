@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/RegisterForm.css";
+import { useAuth } from "../../application/auth/AuthContext";
 import { apiHelpers } from "../../infrastructure/api/api.config";
 
 function RegisterForm() {
@@ -15,6 +16,7 @@ function RegisterForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,7 +52,7 @@ function RegisterForm() {
 
     try {
       const result = await apiHelpers.register({
-        name: `${formData.firstname} ${formData.lastname}`, // ✅ FIX
+        name: `${formData.firstname} ${formData.lastname}`,
         email: formData.email,
         password: formData.password,
       });
@@ -58,8 +60,12 @@ function RegisterForm() {
       setLoading(false);
 
       if (result.ok) {
-        // redirect to login after success
-        navigate("/login");
+        // ✅ Auto-login after successful registration
+        if (result.data?.token && result.data?.user) {
+          login(result.data.user, result.data.token);
+        }
+        // ✅ Redirect directly to homepage
+        navigate("/");
       } else {
         setError(result.error || "Registration failed.");
       }

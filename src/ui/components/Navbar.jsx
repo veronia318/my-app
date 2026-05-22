@@ -17,7 +17,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <h1 className="logo-title">
-        <span>Power</span>Stream
+        <span>Energy</span>Saver
       </h1>
 
       <div className="nav-links">
