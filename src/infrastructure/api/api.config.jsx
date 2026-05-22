@@ -1,3 +1,4 @@
+//from folder fixed files
 // 🔁 Toggle between json-server and real backend
 const USE_JSON_SERVER = false;
 
@@ -175,22 +176,12 @@ export const apiHelpers = {
 
     const data = await response.json();
 
-    // ✅ Backend returns token and user — save token and return both
+    // ✅ Backend returns { message: "User created", userId: "..." } — no token
     if (response.ok) {
-      if (data.token) {
-        localStorage.setItem("authToken", data.token);
-      }
       return {
         ok: true,
         data: {
-          token: data.token,
-          user: data.user
-            ? {
-                id: data.user._id || data.user.id,
-                name: data.user.name,
-                email: data.user.email,
-              }
-            : null,
+          userId: data.userId,
           message: data.message,
         },
       };
