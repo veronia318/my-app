@@ -292,3 +292,51 @@
 .error-message p {
   color: #ccc;
 }
+
+/* Quick Actions */
+.quick-actions-section {
+  margin: 20px 0;
+}
+
+.quick-actions-title {
+  font-size: 16px;
+  color: var(--text-light, #ccc);
+  margin-bottom: 14px;
+}
+
+.quick-actions-buttons {
+  display: flex;
+  gap: 16px;
+  width: fit-content;
+}
+
+.quick-action-btn {
+  padding: 10px 50px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.quick-action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.all-off-btn {
+  background-color: #c0392b;
+  color: #fff;
+}
+
+.all-off-btn:hover:not(:disabled) {
+  background-color: #e74c3c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}

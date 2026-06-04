@@ -1,0 +1,221 @@
+.scheduling-container {
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--text-light, #eee);
+}
+
+.scheduling-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #00bfff;
+  margin-bottom: 6px;
+}
+
+.scheduling-subtitle {
+  color: #888;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+/* ── Form Card ── */
+.schedule-form-card {
+  background: #1a1a2e;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 36px;
+  border: 1px solid #2e2e50;
+}
+
+.schedule-form-card h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.form-group select,
+.form-group input[type="time"] {
+  background: #12122a;
+  border: 1px solid #3a3a5c;
+  border-radius: 8px;
+  color: #fff;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.form-group select:focus,
+.form-group input[type="time"]:focus {
+  border-color: #00bfff;
+}
+
+.schedule-message {
+  font-size: 13px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.schedule-message.success {
+  background: rgba(46, 204, 113, 0.15);
+  color: #2ecc71;
+}
+
+.schedule-message.error {
+  background: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+}
+
+.schedule-submit-btn {
+  background: #00bfff;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.schedule-submit-btn:hover:not(:disabled) {
+  background: #33ccff;
+  transform: translateY(-2px);
+}
+
+.schedule-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Schedules List ── */
+.schedules-list h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.schedules-empty {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+  padding: 30px 0;
+}
+
+.schedule-item {
+  background: #1a1a2e;
+  border: 1px solid #2e2e50;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: opacity 0.2s;
+}
+
+.schedule-item.inactive {
+  opacity: 0.45;
+}
+
+.schedule-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.schedule-device {
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+}
+
+.schedule-action {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.schedule-action.on {
+  background: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+}
+
+.schedule-action.off {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+}
+
+.schedule-time,
+.schedule-repeat {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.schedule-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.toggle-btn,
+.delete-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.toggle-btn:hover,
+.delete-btn:hover {
+  transform: scale(1.1);
+}
+
+.toggle-btn.active {
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+}
+
+.toggle-btn.paused {
+  background: rgba(46, 204, 113, 0.15);
+  color: #2ecc71;
+}
+
+.delete-btn {
+  background: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-info {
+    gap: 8px;
+  }
+}

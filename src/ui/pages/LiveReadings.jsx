@@ -66,22 +66,21 @@ const DeviceRow = React.memo(({ device, onToggle, isSelected, onSelect }) => {
   );
 });
 
+const METRIC_CONFIG = {
+  power: { label: "Power (W)", color: "#4a148c", unit: "W" },
+  voltage: { label: "Voltage (V)", color: "#00bcd4", unit: "V" },
+  current: { label: "Current (A)", color: "#43a047", unit: "A" },
+};
+
 const DeviceDetailsModal = ({ device, onClose, inMemoryHistory }) => {
   const [realHistory, setRealHistory] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [monthlyAvg, setMonthlyAvg] = useState(null);
   const [yearlyAvg, setYearlyAvg] = useState(null);
   const [loadingStats, setLoadingStats] = useState(false);
+  const [selectedMetric, setSelectedMetric] = useState("power");
 
-  useEffect(() => {
-    if (!device) return;
-    if (!USE_JSON_SERVER) {
-      fetchRealHistory();
-      fetchMonthlyYearlyStats();
-    }
-  }, [device]);
-
-  const fetchRealHistory = async () => {
+  const fetchRealHistory = useCallback(async () => {
     setLoadingHistory(true);
     try {
       const response = await fetchWithAuth(
@@ -109,9 +108,9 @@ const DeviceDetailsModal = ({ device, onClose, inMemoryHistory }) => {
     } finally {
       setLoadingHistory(false);
     }
-  };
+  }, [device]);
 
-  const fetchMonthlyYearlyStats = async () => {
+  const fetchMonthlyYearlyStats = useCallback(async () => {
     setLoadingStats(true);
     try {
       const now = new Date();
@@ -142,7 +141,15 @@ const DeviceDetailsModal = ({ device, onClose, inMemoryHistory }) => {
     } finally {
       setLoadingStats(false);
     }
-  };
+  }, [device]);
+
+  useEffect(() => {
+    if (!device) return;
+    if (!USE_JSON_SERVER) {
+      fetchRealHistory();
+      fetchMonthlyYearlyStats();
+    }
+  }, [device, fetchRealHistory, fetchMonthlyYearlyStats]);
 
   if (!device) return null;
 
@@ -179,17 +186,50 @@ const DeviceDetailsModal = ({ device, onClose, inMemoryHistory }) => {
 
         <div className="modal-body">
           <div className="device-stats">
-            <div className="stat-box">
+            <div
+              className={`stat-box ${selectedMetric === "voltage" ? "stat-box-active" : ""}`}
+              onClick={() => setSelectedMetric("voltage")}
+              style={{ cursor: "pointer" }}
+            >
               <h4>Voltage</h4>
-              <p className="stat-value">{device.voltage.toFixed(2)} V</p>
+              <p
+                className="stat-value"
+                style={{
+                  color: selectedMetric === "voltage" ? "#00bcd4" : undefined,
+                }}
+              >
+                {device.voltage.toFixed(2)} V
+              </p>
             </div>
-            <div className="stat-box">
+            <div
+              className={`stat-box ${selectedMetric === "current" ? "stat-box-active" : ""}`}
+              onClick={() => setSelectedMetric("current")}
+              style={{ cursor: "pointer" }}
+            >
               <h4>Current</h4>
-              <p className="stat-value">{device.current.toFixed(2)} A</p>
+              <p
+                className="stat-value"
+                style={{
+                  color: selectedMetric === "current" ? "#43a047" : undefined,
+                }}
+              >
+                {device.current.toFixed(2)} A
+              </p>
             </div>
-            <div className="stat-box">
+            <div
+              className={`stat-box ${selectedMetric === "power" ? "stat-box-active" : ""}`}
+              onClick={() => setSelectedMetric("power")}
+              style={{ cursor: "pointer" }}
+            >
               <h4>Power</h4>
-              <p className="stat-value">{device.power.toFixed(2)} W</p>
+              <p
+                className="stat-value"
+                style={{
+                  color: selectedMetric === "power" ? "#4a148c" : undefined,
+                }}
+              >
+                {device.power.toFixed(2)} W
+              </p>
             </div>
             <div className="stat-box">
               <h4>Status</h4>
@@ -235,7 +275,7 @@ const DeviceDetailsModal = ({ device, onClose, inMemoryHistory }) => {
 
           <div className="device-graph">
             <h3>
-              Power Consumption History{" "}
+              {METRIC_CONFIG[selectedMetric].label} History{" "}
               {loadingHistory && (
                 <span style={{ fontSize: "13px", color: "#888" }}>
                   Loading...
@@ -251,11 +291,11 @@ const DeviceDetailsModal = ({ device, onClose, inMemoryHistory }) => {
                 <Legend />
                 <Line
                   type="monotone"
-                  dataKey="power"
-                  stroke="#4a148c"
+                  dataKey={selectedMetric}
+                  stroke={METRIC_CONFIG[selectedMetric].color}
                   strokeWidth={2}
                   dot={{ r: 3 }}
-                  name="Power (W)"
+                  name={METRIC_CONFIG[selectedMetric].label}
                 />
               </LineChart>
             </ResponsiveContainer>

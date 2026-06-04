@@ -32,7 +32,9 @@ function Navbar() {
             <Link to="/rooms" className="nav-link">
               Rooms
             </Link>
-
+            <Link to="/scheduling" className="nav-link">
+              Scheduling
+            </Link>
             <Link to="/profile" className="user-section">
               <User size={18} />
               <span className="welcome-text">
