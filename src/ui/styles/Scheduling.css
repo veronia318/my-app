@@ -36,7 +36,7 @@
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 16px;
   margin-bottom: 16px;
 }
 
@@ -59,8 +59,8 @@
   border: 1px solid #3a3a5c;
   border-radius: 8px;
   color: #fff;
-  padding: 10px;
-  font-size: 16px;
+  padding: 10px 12px;
+  font-size: 14px;
   outline: none;
   transition: border 0.2s;
 }
@@ -218,4 +218,30 @@
   .schedule-info {
     gap: 8px;
   }
+}
+
+/* Custom days selector */
+.days-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.day-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #3a3a5c;
+  background: #12122a;
+  color: #aaa;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.day-btn.selected {
+  background: #00bfff;
+  color: #000;
+  border-color: #00bfff;
 }

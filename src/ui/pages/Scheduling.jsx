@@ -4,6 +4,8 @@ import API_ENDPOINTS, {
 } from "../../infrastructure/api/api.config";
 import "../styles/Scheduling.css";
 
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 export default function Scheduling() {
   const [devices, setDevices] = useState([]);
   const [schedules, setSchedules] = useState([]);
@@ -12,7 +14,8 @@ export default function Scheduling() {
     deviceId: "",
     action: "off",
     time: "",
-    repeat: "daily",
+    repeatType: "once",
+    days: [],
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
@@ -49,20 +52,49 @@ export default function Scheduling() {
     }
   };
 
+  const handleDayToggle = (day) => {
+    setFormData((prev) => ({
+      ...prev,
+      days: prev.days.includes(day)
+        ? prev.days.filter((d) => d !== day)
+        : [...prev.days, day],
+    }));
+  };
+
   const handleSubmit = async () => {
     if (!formData.deviceId || !formData.time) {
       setMessage({ type: "error", text: "Please select a device and time." });
       return;
     }
+    if (formData.repeatType === "custom" && formData.days.length === 0) {
+      setMessage({ type: "error", text: "Please select at least one day." });
+      return;
+    }
+
     setSubmitting(true);
     try {
+      const payload = {
+        deviceId: formData.deviceId,
+        action: formData.action,
+        time: formData.time,
+        repeatType: formData.repeatType,
+        days: formData.repeatType === "custom" ? formData.days : [],
+      };
+
       const res = await fetchWithAuth(API_ENDPOINTS.SCHEDULES, {
         method: "POST",
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
+
       if (res.ok) {
         setMessage({ type: "success", text: "Schedule created successfully!" });
-        setFormData({ deviceId: "", action: "off", time: "", repeat: "daily" });
+        setFormData({
+          deviceId: "",
+          action: "off",
+          time: "",
+          repeatType: "once",
+          days: [],
+        });
         fetchSchedules();
       } else {
         const err = await res.json();
@@ -81,7 +113,7 @@ export default function Scheduling() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetchWithAuth(API_ENDPOINTS.SCHEDULE_DELETE(id), {
+      const res = await fetchWithAuth(API_ENDPOINTS.SCHEDULE_BY_ID(id), {
         method: "DELETE",
       });
       if (res.ok) fetchSchedules();
@@ -90,22 +122,32 @@ export default function Scheduling() {
     }
   };
 
-  const handleToggle = async (id) => {
+  const handleToggleEnabled = async (schedule) => {
     try {
-      const res = await fetchWithAuth(API_ENDPOINTS.SCHEDULE_TOGGLE(id), {
-        method: "PATCH",
-      });
+      const res = await fetchWithAuth(
+        API_ENDPOINTS.SCHEDULE_BY_ID(schedule._id),
+        {
+          method: "PUT",
+          body: JSON.stringify({ enabled: !schedule.enabled }),
+        },
+      );
       if (res.ok) fetchSchedules();
     } catch (err) {
-      console.error("Error toggling schedule:", err);
+      console.error("Error updating schedule:", err);
     }
   };
 
   const getDeviceName = (deviceId) => {
-    const device = devices.find(
-      (d) => (d._id || d.id) === (deviceId?._id || deviceId?.id || deviceId),
-    );
+    const id = deviceId?._id || deviceId?.id || deviceId;
+    const device = devices.find((d) => (d._id || d.id) === id);
     return device ? device.name : "Unknown Device";
+  };
+
+  const formatRepeat = (s) => {
+    if (s.repeatType === "daily") return "Daily";
+    if (s.repeatType === "once") return "Once";
+    if (s.repeatType === "custom" && s.days?.length) return s.days.join(", ");
+    return "Once";
   };
 
   return (
@@ -115,7 +157,7 @@ export default function Scheduling() {
         Set timers to automatically turn your devices on or off.
       </p>
 
-      {/* ── Create Schedule Form ── */}
+      {/* ── Form ── */}
       <div className="schedule-form-card">
         <h2>New Schedule</h2>
 
@@ -164,16 +206,37 @@ export default function Scheduling() {
           <div className="form-group">
             <label>Repeat</label>
             <select
-              value={formData.repeat}
+              value={formData.repeatType}
               onChange={(e) =>
-                setFormData({ ...formData, repeat: e.target.value })
+                setFormData({
+                  ...formData,
+                  repeatType: e.target.value,
+                  days: [],
+                })
               }
             >
-              <option value="daily">Daily</option>
               <option value="once">Once</option>
+              <option value="daily">Daily</option>
+              <option value="custom">Custom Days</option>
             </select>
           </div>
         </div>
+
+        {/* Custom days selector */}
+        {formData.repeatType === "custom" && (
+          <div className="days-selector">
+            {DAYS.map((day) => (
+              <button
+                key={day}
+                className={`day-btn ${formData.days.includes(day) ? "selected" : ""}`}
+                onClick={() => handleDayToggle(day)}
+                type="button"
+              >
+                {day}
+              </button>
+            ))}
+          </div>
+        )}
 
         {message && (
           <p className={`schedule-message ${message.type}`}>{message.text}</p>
@@ -188,7 +251,7 @@ export default function Scheduling() {
         </button>
       </div>
 
-      {/* ── Existing Schedules ── */}
+      {/* ── List ── */}
       <div className="schedules-list">
         <h2>Your Schedules</h2>
 
@@ -200,30 +263,26 @@ export default function Scheduling() {
           schedules.map((s) => (
             <div
               key={s._id}
-              className={`schedule-item ${!s.isActive ? "inactive" : ""}`}
+              className={`schedule-item ${!s.enabled ? "inactive" : ""}`}
             >
               <div className="schedule-info">
                 <span className="schedule-device">
                   💡 {getDeviceName(s.deviceId)}
                 </span>
-                <span
-                  className={`schedule-action ${s.action === "on" ? "on" : "off"}`}
-                >
+                <span className={`schedule-action ${s.action}`}>
                   {s.action === "on" ? "Turn ON" : "Turn OFF"}
                 </span>
                 <span className="schedule-time">🕐 {s.time}</span>
-                <span className="schedule-repeat">
-                  🔁 {s.repeat === "daily" ? "Daily" : "Once"}
-                </span>
+                <span className="schedule-repeat">🔁 {formatRepeat(s)}</span>
               </div>
 
               <div className="schedule-actions">
                 <button
-                  className={`toggle-btn ${s.isActive ? "active" : "paused"}`}
-                  onClick={() => handleToggle(s._id)}
-                  title={s.isActive ? "Pause" : "Resume"}
+                  className={`toggle-btn ${s.enabled ? "active" : "paused"}`}
+                  onClick={() => handleToggleEnabled(s)}
+                  title={s.enabled ? "Pause" : "Resume"}
                 >
-                  {s.isActive ? "⏸" : "▶"}
+                  {s.enabled ? "⏸" : "▶"}
                 </button>
                 <button
                   className="delete-btn"

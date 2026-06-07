@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { Brain, ShieldAlert, ShieldOff, RefreshCw, Zap } from "lucide-react";
 import "../styles/AIAnalysis.css";
 import { useAuth } from "../../application/auth/AuthContext";
@@ -74,6 +75,8 @@ export default function AIAnalysis() {
   const [error, setError] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   const { user } = useAuth();
+  const location = useLocation();
+  const deviceId = new URLSearchParams(location.search).get("deviceId");
 
   const fetchRecommendations = useCallback(async () => {
     if (!user) return;
@@ -91,7 +94,12 @@ export default function AIAnalysis() {
       const data = await response.json();
 
       // Backend may return { recommendations: [...] } or plain array
-      const list = Array.isArray(data) ? data : data.recommendations || [];
+      const allRecs = Array.isArray(data) ? data : data.recommendations || [];
+      const list = deviceId
+        ? allRecs.filter(
+            (r) => r.deviceId === deviceId || r.appliance === deviceId,
+          )
+        : allRecs;
       setRecommendations(list);
       setLastUpdated(new Date().toLocaleTimeString());
     } catch (err) {

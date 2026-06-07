@@ -9,7 +9,6 @@ import API_ENDPOINTS, {
 } from "../../infrastructure/api/api.config";
 import { useAuth } from "../../application/auth/AuthContext";
 
-// ================= DEVICE ICON BASED ON NAME =================
 const getDeviceIcon = (name = "") => {
   const n = name.toLowerCase();
   if (n.includes("fan")) return "🌀";
@@ -42,23 +41,14 @@ export default function RoomDetails() {
   const [editingDeviceId, setEditingDeviceId] = useState(null);
   const [editDeviceData, setEditDeviceData] = useState({ name: "" });
 
-  // ================= FETCH ROOM + DEVICES + LATEST READINGS =================
   const fetchRoomAndDevices = useCallback(async () => {
     try {
-      // Fetch room
-      const roomResponse = await fetchWithAuth(
-        API_ENDPOINTS.ROOM_BY_ID(roomId),
-      );
-      let roomData;
-      if (!roomResponse.ok) {
-        const allRoomsResponse = await fetchWithAuth(API_ENDPOINTS.ROOMS);
-        if (!allRoomsResponse.ok) throw new Error("Room not found");
-        const allRooms = await allRoomsResponse.json();
-        roomData = allRooms.find((r) => (r._id || r.id) === roomId);
-        if (!roomData) throw new Error("Room not found");
-      } else {
-        roomData = await roomResponse.json();
-      }
+      // ✅ جيب كل الـ rooms وفلتر بالـ id — بدل ما نطلب ROOM_BY_ID اللي مش موجود في الـ backend
+      const allRoomsResponse = await fetchWithAuth(API_ENDPOINTS.ROOMS);
+      if (!allRoomsResponse.ok) throw new Error("Failed to fetch rooms");
+      const allRooms = await allRoomsResponse.json();
+      const roomData = allRooms.find((r) => (r._id || r.id) === roomId);
+      if (!roomData) throw new Error("Room not found");
 
       setRoom({
         id: roomData._id || roomData.id,
@@ -78,7 +68,6 @@ export default function RoomDetails() {
         ? devicesData
         : devicesData.devices || [];
 
-      // ✅ Fetch latestReading for each device to keep readings up to date
       const devicesWithReadings = await Promise.all(
         devicesList.map(async (device) => {
           try {
@@ -112,12 +101,10 @@ export default function RoomDetails() {
 
   useEffect(() => {
     fetchRoomAndDevices();
-    // ✅ Auto-refresh every 10 seconds to keep readings up to date
     const interval = setInterval(fetchRoomAndDevices, 10000);
     return () => clearInterval(interval);
   }, [fetchRoomAndDevices]);
 
-  // ================= ADD DEVICE =================
   const handleAddDevice = async (e) => {
     e.preventDefault();
     if (!newDeviceData.name) {
@@ -143,25 +130,19 @@ export default function RoomDetails() {
         body: JSON.stringify(devicePayload),
       });
       if (!response.ok) throw new Error("Failed to add device");
-
       const data = await response.json();
       const addedDevice = data.device || data;
-      const normalizedDevice = normalizeDevice({
-        ...addedDevice,
-        userId: user.id,
-        roomId,
-      });
-
-      setDevices((prev) => [...prev, normalizedDevice]);
+      setDevices((prev) => [
+        ...prev,
+        normalizeDevice({ ...addedDevice, userId: user.id, roomId }),
+      ]);
       setNewDeviceData({ name: "" });
       setIsAdding(false);
     } catch (err) {
-      console.error("Error adding device:", err);
       alert("Failed to add device: " + err.message);
     }
   };
 
-  // ================= DELETE DEVICE =================
   const removeDevice = async (deviceId) => {
     const deviceToRemove = devices.find((d) => d.id === deviceId);
     if (
@@ -170,7 +151,6 @@ export default function RoomDetails() {
       )
     )
       return;
-
     try {
       const response = await fetchWithAuth(
         API_ENDPOINTS.DEVICE_BY_ID(deviceId),
@@ -179,12 +159,10 @@ export default function RoomDetails() {
       if (!response.ok) throw new Error("Failed to delete device");
       setDevices((prev) => prev.filter((device) => device.id !== deviceId));
     } catch (err) {
-      console.error("Error removing device:", err);
       alert("Failed to remove device: " + err.message);
     }
   };
 
-  // ================= EDIT DEVICE =================
   const handleStartEdit = (e, device) => {
     e.preventDefault();
     e.stopPropagation();
@@ -198,7 +176,6 @@ export default function RoomDetails() {
       alert("Device name cannot be empty.");
       return;
     }
-
     try {
       const response = await fetchWithAuth(
         API_ENDPOINTS.DEVICE_BY_ID(deviceId),
@@ -208,10 +185,8 @@ export default function RoomDetails() {
         },
       );
       if (!response.ok) throw new Error("Failed to update device");
-
       const data = await response.json();
       const updatedDevice = data.device || data;
-
       setDevices((prev) =>
         prev.map((d) =>
           d.id === deviceId ? normalizeDevice({ ...d, ...updatedDevice }) : d,
@@ -219,7 +194,6 @@ export default function RoomDetails() {
       );
       setEditingDeviceId(null);
     } catch (err) {
-      console.error("Error updating device:", err);
       alert("Failed to update device: " + err.message);
     }
   };
@@ -235,11 +209,8 @@ export default function RoomDetails() {
   return (
     <div
       className="room-details-container"
-      style={{
-        "--bg-image": `url(${room.image})`,
-      }}
+      style={{ "--bg-image": `url(${room.image})` }}
     >
-      {/* ── Header ── */}
       <div className="room-details-header">
         <button className="back-btn" onClick={() => navigate("/rooms")}>
           <ArrowLeft size={20} /> Back to Rooms
@@ -250,7 +221,6 @@ export default function RoomDetails() {
         </button>
       </div>
 
-      {/* ── Add Device Form ── */}
       {isAdding && (
         <div className="add-device-form-container">
           <form onSubmit={handleAddDevice} className="add-device-form">
@@ -283,7 +253,6 @@ export default function RoomDetails() {
         </div>
       )}
 
-      {/* ── Devices Grid ── */}
       <div className="devices-grid">
         {devices.length === 0 ? (
           <div className="no-devices">
@@ -293,7 +262,6 @@ export default function RoomDetails() {
         ) : (
           devices.map((device) => (
             <div key={device.id} className="device-card">
-              {/* ── Edit Form ── */}
               {editingDeviceId === device.id ? (
                 <form
                   onSubmit={(e) => handleUpdateDevice(e, device.id)}
@@ -324,7 +292,6 @@ export default function RoomDetails() {
                 </form>
               ) : (
                 <>
-                  {/* ── Card Header ── */}
                   <div className="device-header">
                     <div className="device-title">
                       <span className="device-emoji">
@@ -367,7 +334,6 @@ export default function RoomDetails() {
                     </div>
                   </div>
 
-                  {/* ── Readings Grid ── */}
                   <div className="device-readings-grid">
                     <div className="reading-item">
                       <span className="reading-label">⚡ Voltage</span>
