@@ -587,7 +587,6 @@
 //     </div>
 //   );
 // }
-
 //from folder fixed files
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
@@ -719,6 +718,14 @@ export default function LiveReadings() {
       } else {
         normalizedDevices = allDevices.map(normalizeDevice);
       }
+
+      // If a device reports 0 power and 0 current, treat it as OFF
+      // regardless of what the backend's stored state says.
+      normalizedDevices = normalizedDevices.map((device) =>
+        device.power === 0 && device.current === 0
+          ? { ...device, status: "OFF" }
+          : device,
+      );
 
       setDevices(normalizedDevices);
 
