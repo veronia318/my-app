@@ -36,7 +36,7 @@
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 24px;
   margin-bottom: 16px;
 }
 
@@ -59,10 +59,12 @@
   border: 1px solid #3a3a5c;
   border-radius: 8px;
   color: #fff;
-  padding: 10px 12px;
+  padding: 10px 15px;
   font-size: 14px;
   outline: none;
   transition: border 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group select:focus,

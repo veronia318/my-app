@@ -42,4 +42,42 @@
   --color-live-bg-primary: #12121e;
   --color-live-bg-secondary: #1e1e30;
   --color-live-text-dark: #b3b3b3;
+
+  /* helper tokens */
+  --color-black: #000;
+  --color-border-default: #444;
+  --color-border-muted: #555;
+  --color-border-dark: #2e2e50;
+  --color-border-light: #3a3a5c;
+  --color-bg-secondary: #1a1a2e;
+  --color-bg-tertiary: #12122a;
+  --color-bg-surface: #333;
+  --color-bg-gradient-start: #0f172a;
+  --color-bg-gradient-end: #020617;
+  --color-primary-light: #61dafb;
+  --color-primary-dark: #6a1eb0;
+  --color-secondary-light: #ffc107;
+  --color-success-light: #2ecc71;
+  --color-info-alt: #00bcd4;
+  --color-current-light: #43a047;
+  --color-danger-darker: #ff1a1a;
+  --color-grey-light: #999;
+  --color-border-light-translucent: rgba(255, 255, 255, 0.08);
+  --color-overlay-medium: rgba(0, 0, 0, 0.5);
+  --color-shadow-light: rgba(0, 0, 0, 0.2);
+  --color-shadow-medium: rgba(0, 0, 0, 0.3);
+  --color-shadow-strong: rgba(0, 0, 0, 0.6);
+  --color-primary-soft: rgba(0, 191, 255, 0.15);
+  --color-primary-soft-strong: rgba(0, 191, 255, 0.3);
+  --color-primary-transparent: rgba(0, 191, 255, 0.31);
+  --color-info-soft: rgba(0, 191, 255, 0.2);
+  --color-info-soft-strong: rgba(0, 191, 255, 0.4);
+  --color-success-soft: rgba(76, 175, 80, 0.15);
+  --color-success-soft-strong: rgba(46, 204, 113, 0.2);
+  --color-danger-soft: rgba(244, 67, 54, 0.1);
+  --color-danger-soft-strong: rgba(244, 67, 54, 0.4);
+  --color-alert-soft: rgba(231, 76, 60, 0.15);
+  --color-alert-soft-strong: rgba(231, 76, 60, 0.2);
+  --color-warning-soft: rgba(255, 193, 7, 0.15);
+  --color-text-muted-strong: rgba(0, 0, 0, 0.7);
 }

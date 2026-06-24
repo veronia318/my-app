@@ -33,15 +33,17 @@
 }
 
 .navbar {
+  background: rgba(26, 26, 46, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin: 12px;
+  padding: 14px 28px;
   display: flex;
-  justify-content: space-between;
-  width: 90vw;
   align-items: center;
-  padding: 15px 30px;
-  border-radius: 10px;
-  margin: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.823);
-  background-color: #20232a;
+  justify-content: space-between;
 }
 
 .logo {

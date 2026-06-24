@@ -1,5 +1,3 @@
-/* Home.css */
-
 /* --- Basic Variables --- */
 
 :root {
@@ -12,7 +10,7 @@
 /* --- Main Container --- */
 
 .home-container {
-  padding: 30px;
+  padding: 10px;
   width: 90vw;
   margin: 0px auto;
   color: var(--text-light);

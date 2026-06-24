@@ -8,6 +8,7 @@ import API_ENDPOINTS, {
   USE_JSON_SERVER,
 } from "../../infrastructure/api/api.config";
 import { useAuth } from "../../application/auth/AuthContext";
+import DeviceDetailsModal from "../components/DeviceDetailsModal";
 
 const getDeviceIcon = (name = "") => {
   const n = name.toLowerCase();
@@ -40,6 +41,7 @@ export default function RoomDetails() {
   const [newDeviceData, setNewDeviceData] = useState({ name: "" });
   const [editingDeviceId, setEditingDeviceId] = useState(null);
   const [editDeviceData, setEditDeviceData] = useState({ name: "" });
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
   const fetchRoomAndDevices = useCallback(async () => {
     try {
@@ -261,7 +263,18 @@ export default function RoomDetails() {
           </div>
         ) : (
           devices.map((device) => (
-            <div key={device.id} className="device-card">
+            <div
+              key={device.id}
+              className="device-card"
+              onClick={() => {
+                if (editingDeviceId !== device.id) {
+                  setSelectedDeviceId(device.id);
+                }
+              }}
+              style={{
+                cursor: editingDeviceId === device.id ? "default" : "pointer",
+              }}
+            >
               {editingDeviceId === device.id ? (
                 <form
                   onSubmit={(e) => handleUpdateDevice(e, device.id)}
@@ -384,6 +397,17 @@ export default function RoomDetails() {
           ))
         )}
       </div>
+
+      {selectedDeviceId &&
+        (() => {
+          const selectedDevice = devices.find((d) => d.id === selectedDeviceId);
+          return selectedDevice ? (
+            <DeviceDetailsModal
+              device={selectedDevice}
+              onClose={() => setSelectedDeviceId(null)}
+            />
+          ) : null;
+        })()}
     </div>
   );
 }
