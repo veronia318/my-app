@@ -257,7 +257,7 @@
   border-radius: 6px;
   border: 1px solid var(--color-border-default);
   background-color: var(--color-text-default);
-  color: var(--text-light);
+  color: var(--color-white);
   font-size: 16px;
   transition: all 0.3s ease;
   animation: slideInLeft 0.4s ease-out backwards;

@@ -43,7 +43,7 @@
   margin: 0 0 4px;
   color: var(--color-text-default, var(--color-text-light));
   letter-spacing: -0.5px;
-  color: var(--color-white);
+  color: var(--text-primary);
 }
 
 .ai-page__subtitle {
@@ -222,7 +222,7 @@
   font-weight: 700;
   margin: 0;
   flex: 1;
-  color: var(--color-white);
+  color: var(--text-primary);
 }
 
 .ai-card__badge {

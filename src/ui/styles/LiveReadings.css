@@ -98,7 +98,7 @@
 .reading-card {
   padding: 20px;
   border-radius: 12px;
-  background-color: var(--bg-secondary);
+  background-color: var(--color-bg-secondary);
   box-shadow: 0 4px 15px var(--color-shadow-strong);
   transition: all 0.3s ease;
   border-left: 4px solid var(--color-voltage);
@@ -159,7 +159,7 @@
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 5px;
-  color: var(--text-dark);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
 }
 
@@ -203,7 +203,7 @@
 /* ==================== Graph ==================== */
 
 .live-graph-container {
-  background-color: var(--bg-secondary) !important;
+  background-color: var(--color-live-bg-secondary) !important;
   padding: 20px;
   border-radius: 12px;
   margin-top: 40px !important;
@@ -234,7 +234,7 @@
 
 .devices-table-container {
   margin-top: 40px;
-  background-color: var(--bg-secondary);
+  background-color: var(--color-live-bg-secondary);
   border-radius: 12px;
   box-shadow: 0 4px 15px var(--color-shadow-strong);
   overflow: hidden;
@@ -402,7 +402,7 @@ input:checked + .slider:before {
 }
 
 .modal-content {
-  background-color: var(--bg-secondary);
+  background-color: var(--color-live-bg-secondary);
   border-radius: 15px;
   width: 90%;
   max-width: 800px;
@@ -503,7 +503,7 @@ input:checked + .slider:before {
 .stat-box h4 {
   margin: 0 0 10px 0;
   font-size: 14px;
-  color: var(--text-dark);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
 }
 
@@ -591,7 +591,7 @@ input:checked + .slider:before {
 .ddm-loading {
   text-align: center;
   padding: 60px 0;
-  color: var(--text-dark, var(--color-text-secondary));
+  color: var(--color-text-secondary);
 }
 
 /* ── Live value / summary cards — same look as the site's stat boxes ── */
@@ -609,7 +609,7 @@ input:checked + .slider:before {
 
 .ddm-live-card {
   flex: 1;
-  background: var(--bg-secondary, var(--color-live-bg-secondary));
+  background: var(--color-live-bg-secondary);
   border: 1px solid var(--color-form-border, var(--color-border-dark-accent));
   border-left: 4px solid var(--card-color, var(--color-info-alt));
   border-radius: 10px;
@@ -625,13 +625,13 @@ input:checked + .slider:before {
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: var(--text-dark, var(--color-text-secondary));
+  color: var(--color-text-secondary);
 }
 
 .ddm-live-card__value {
   font-size: 24px;
   font-weight: 700;
-  color: var(--card-color, var(--color-white));
+  color: var(--card-color, var(--text-primary));
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -650,7 +650,7 @@ input:checked + .slider:before {
   padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid var(--color-form-border, var(--color-border-dark-accent));
-  background: var(--bg-secondary, var(--color-live-bg-secondary));
+  background: var(--color-live-bg-secondary);
   color: var(--text-light, var(--color-text-light));
   font-weight: 600;
   font-size: 13px;
@@ -681,8 +681,8 @@ input:checked + .slider:before {
   padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid var(--color-form-border, var(--color-border-dark-accent));
-  background: var(--bg-secondary, var(--color-live-bg-secondary));
-  color: var(--text-dark, var(--color-text-secondary));
+  background: var(--color-live-bg-secondary);
+  color: var(--color-text-secondary);
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
@@ -695,7 +695,7 @@ input:checked + .slider:before {
 
 /* ── Chart cards — same panel style as "Total Power Consumption" ── */
 .ddm-chart-card {
-  background: var(--bg-secondary, var(--color-live-bg-secondary));
+  background: var(--color-live-bg-secondary);
   border: 1px solid var(--color-form-border, var(--color-border-dark-accent));
   border-radius: 10px;
   padding: 16px;
@@ -714,7 +714,7 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-dark, var(--color-text-secondary));
+  color: var(--color-text-secondary);
   font-size: 14px;
 }
 

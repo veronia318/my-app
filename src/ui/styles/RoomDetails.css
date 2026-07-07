@@ -10,7 +10,7 @@
   position: relative;
   min-height: 100vh;
   padding: 30px;
-  color: var(--color-white);
+  color: var(--text-primary);
   overflow: hidden;
 }
 .room-details-container::before {
@@ -344,7 +344,7 @@
     var(--color-bg-gradient-end)
   );
   padding: 30px;
-  color: var(--color-white);
+  color: var(--text-primary);
 }
 
 /* add-device-button */
@@ -430,7 +430,7 @@
 }
 
 .reading-item {
-  background: var(--color-white-soft-05);
+  background: var(--color-bg-tertiary);
   border-radius: 10px;
   padding: 10px 8px;
   display: flex;
@@ -450,7 +450,7 @@
 .reading-value {
   font-size: 15px;
   font-weight: 700;
-  color: var(--color-white) fff;
+  color: var(--text-primary);
 }
 
 /* Status badge update */

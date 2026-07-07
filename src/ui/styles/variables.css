@@ -94,6 +94,7 @@
   --color-danger-strong: #c0392b;
   --color-surface-darker: #232338;
   --color-surface-raised: #252535;
+  --color-surface-panel: #363646;
   --color-bg-elevated: #1e1e1e;
   --color-bg-auth: #0f0f16;
   --color-bg-input-dark: #111;
@@ -142,4 +143,67 @@
   --color-warning-soft: rgba(255, 193, 7, 0.15);
   --color-text-muted-strong: rgba(0, 0, 0, 0.7);
   --color-overlay-blue-deep: rgba(26, 26, 46, 0.55);
+
+  /* ── Theme-aware token ───────────────────────────────
+     Used for headings / card titles that sit on surfaces
+     which flip between dark and light (see the light-theme
+     override block below). Defaults to white to match the
+     app's original (dark) look. */
+  --text-primary: #ffffff;
+}
+
+/* =====================================================================
+   LIGHT THEME
+   Activated by setting data-theme="light" on <html> (see ThemeContext).
+   Overrides only the *structural* surface, border, and text tokens so
+   the whole app (backgrounds, cards, navbar, inputs, borders, body
+   copy) switches to a light appearance. Brand/status colors (primary,
+   success, danger, warning, etc.) stay the same in both themes.
+   ===================================================================== */
+:root[data-theme="light"] {
+  /* page & surface backgrounds */
+  --color-bg-dark: #eef1f6;
+  --color-bg-light: #ffffff;
+  --color-card-bg: #ffffff;
+  --color-navbar-bg: #ffffff;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #f1f3f7;
+  --color-bg-auth: #eef1f6;
+  --color-bg-elevated: #ffffff;
+  --color-bg-card-dark: #ffffff;
+  --color-bg-very-dark: #eef1f6;
+  --color-live-bg-primary: #eef1f6;
+  --color-live-bg-secondary: #ffffff;
+  --color-surface-darker: #eef1f6;
+  --color-surface-raised: #ffffff;
+  --color-surface-panel: #f1f3f7;
+  --color-surface-panel-muted: #e3e6ec;
+  --color-surface-panel-alt: #eceef2;
+  --color-chat-panel: #ffffff;
+  --color-bg-gradient-start: #eef2f8;
+  --color-bg-gradient-end: #ffffff;
+
+  /* borders */
+  --color-border-dark: #dde1e8;
+  --color-border-light: #d5d9e0;
+  --color-border-default: #d7dae0;
+  --color-border-muted: #cfd3da;
+  --color-border-dark-accent: #dfe3ea;
+  --color-form-border: #d8dbe2;
+  --color-border-light-translucent: rgba(15, 23, 42, 0.1);
+
+  /* navbar glass */
+  --color-overlay-blue-deep: rgba(255, 255, 255, 0.65);
+
+  /* body / heading text */
+  --text-primary: #151a23;
+  --color-text-light: #202632;
+  --color-text-very-light: #1c2530;
+
+  /* muted / secondary text */
+  --color-text-muted: #5b6472;
+  --color-text-secondary: #5f6774;
+  --color-text-soft: #6b7280;
+  --color-text-lighter: #7c8592;
+  --color-text-panel: #333a48;
 }
