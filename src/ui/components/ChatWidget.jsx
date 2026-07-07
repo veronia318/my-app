@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Bot } from "lucide-react";
+import { MessageCircle, X, Send, Bot, Mic, MicOff } from "lucide-react";
 import API_ENDPOINTS, {
   fetchWithAuth,
 } from "../../infrastructure/api/api.config";
 import "../styles/ChatWidget.css";
+
+// Web Speech API — built into the browser, no API key needed
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +19,12 @@ export default function ChatWidget() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceLang, setVoiceLang] = useState("ar-EG"); // "ar-EG" | "en-US"
   const messagesEndRef = useRef(null);
+  const recognitionRef = useRef(null);
+
+  const isVoiceSupported = !!SpeechRecognition;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -24,6 +33,60 @@ export default function ChatWidget() {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isOpen]);
+
+  // ── Set up speech recognition once ──
+  useEffect(() => {
+    if (!isVoiceSupported) return;
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setInput((prev) => (prev ? `${prev} ${transcript}` : transcript));
+    };
+
+    recognition.onerror = () => {
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+
+    return () => {
+      recognition.stop();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [voiceLang]);
+
+  const handleMicClick = () => {
+    if (!isVoiceSupported || loading) return;
+    const recognition = recognitionRef.current;
+    if (!recognition) return;
+
+    if (isListening) {
+      recognition.stop();
+      setIsListening(false);
+      return;
+    }
+
+    recognition.lang = voiceLang;
+    try {
+      recognition.start();
+      setIsListening(true);
+    } catch {
+      // recognition already running — ignore
+    }
+  };
+
+  const toggleVoiceLang = () => {
+    setVoiceLang((prev) => (prev === "ar-EG" ? "en-US" : "ar-EG"));
+  };
 
   const handleSend = async () => {
     const trimmed = input.trim();
@@ -92,6 +155,15 @@ export default function ChatWidget() {
           <div className="chat-widget__header">
             <Bot size={20} />
             <span>EnergySaver Assistant</span>
+            {isVoiceSupported && (
+              <button
+                className="chat-widget__lang-toggle"
+                onClick={toggleVoiceLang}
+                title="Switch voice input language"
+              >
+                {voiceLang === "ar-EG" ? "AR" : "EN"}
+              </button>
+            )}
           </div>
 
           <div className="chat-widget__messages">
@@ -114,6 +186,11 @@ export default function ChatWidget() {
                 <span></span>
               </div>
             )}
+            {isListening && (
+              <div className="chat-widget__bubble chat-widget__bubble--user chat-widget__listening">
+                🎙️ Listening...
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -126,6 +203,23 @@ export default function ChatWidget() {
               placeholder="Ask about your energy usage..."
               disabled={loading}
             />
+            {isVoiceSupported && (
+              <button
+                className={`chat-widget__mic-btn ${isListening ? "chat-widget__mic-btn--active" : ""}`}
+                onClick={handleMicClick}
+                disabled={loading}
+                title={
+                  isListening
+                    ? "Stop listening"
+                    : voiceLang === "ar-EG"
+                      ? "تحدث بالعربي"
+                      : "Speak in English"
+                }
+              >
+                {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+              </button>
+            )}
+
             <button onClick={handleSend} disabled={loading || !input.trim()}>
               <Send size={18} />
             </button>

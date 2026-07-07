@@ -64,7 +64,7 @@
 }
 
 .error-state {
-  background-color: rgba(244, 67, 54, 0.1);
+  background-color: var(--color-danger-soft);
   border: 2px solid var(--color-danger);
   padding: 15px;
   border-radius: 8px;
@@ -99,7 +99,7 @@
   padding: 20px;
   border-radius: 12px;
   background-color: var(--bg-secondary);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 15px var(--color-shadow-strong);
   transition: all 0.3s ease;
   border-left: 4px solid var(--color-voltage);
   animation: scaleIn 0.5s ease-out backwards;
@@ -140,7 +140,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.1),
+    var(--color-white-soft),
     transparent
   );
   transition: left 0.5s;
@@ -152,7 +152,7 @@
 
 .reading-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 25px var(--color-overlay-strong);
 }
 
 .reading-card h3 {
@@ -207,7 +207,7 @@
   padding: 20px;
   border-radius: 12px;
   margin-top: 40px !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 15px var(--color-shadow-strong);
   animation: slideUp 0.6s ease-out 0.4s both;
 }
 
@@ -226,7 +226,7 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 10px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--color-text-default);
   padding-bottom: 10px;
 }
 
@@ -236,7 +236,7 @@
   margin-top: 40px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 15px var(--color-shadow-strong);
   overflow: hidden;
   animation: slideUp 0.6s ease-out 0.5s both;
 }
@@ -249,14 +249,14 @@
 .devices-table th {
   text-align: left;
   padding: 15px 20px;
-  background-color: #2a2a40;
+  background-color: var(--color-surface-panel);
   font-weight: 600;
   text-transform: uppercase;
   font-size: 14px;
 }
 
 .device-row {
-  border-bottom: 1px solid #2e2e40;
+  border-bottom: 1px solid var(--color-border-dark-accent);
   transition: all 0.3s ease;
   cursor: pointer;
   animation: slideInLeft 0.4s ease-out backwards;
@@ -298,7 +298,7 @@
 }
 
 .device-row:hover {
-  background-color: #232338;
+  background-color: var(--color-surface-darker);
   transform: translateX(5px);
 }
 
@@ -323,12 +323,12 @@
 }
 
 .online-label {
-  background-color: rgba(76, 175, 80, 0.2);
+  background-color: var(--color-success-soft-strong);
   color: var(--color-online);
 }
 
 .offline-label {
-  background-color: rgba(244, 67, 54, 0.2);
+  background-color: var(--color-danger-soft-strong);
   color: var(--color-danger);
 }
 
@@ -354,7 +354,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: var(--color-text-lighter);
   transition: all 0.4s ease;
   border-radius: 34px;
 }
@@ -366,15 +366,15 @@
   width: 16px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: var(--color-white);
   transition: all 0.4s ease;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px var(--color-shadow-light);
 }
 
 input:checked + .slider {
   background-color: var(--color-online);
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 0 10px var(--color-success-soft-stronger);
 }
 
 input:checked + .slider:before {
@@ -382,7 +382,7 @@ input:checked + .slider:before {
 }
 
 .toggle-switch:hover .slider {
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 8px var(--color-white-medium);
 }
 
 /* ==================== Modal ==================== */
@@ -393,7 +393,7 @@ input:checked + .slider:before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: var(--color-overlay-very-dark);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -408,7 +408,7 @@ input:checked + .slider:before {
   max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 40px var(--color-overlay-very-dark);
   animation: modalSlideIn 0.4s ease-out;
 }
 
@@ -428,7 +428,7 @@ input:checked + .slider:before {
   justify-content: space-between;
   align-items: center;
   padding: 20px 25px;
-  border-bottom: 2px solid #2e2e40;
+  border-bottom: 2px solid var(--color-border-dark-accent);
 }
 
 .modal-header h2 {
@@ -448,7 +448,7 @@ input:checked + .slider:before {
 }
 
 .close-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-white-soft);
   transform: rotate(90deg);
 }
 
@@ -468,7 +468,7 @@ input:checked + .slider:before {
   padding: 15px;
   border-radius: 10px;
   text-align: center;
-  border: 1px solid #2e2e40;
+  border: 1px solid var(--color-border-dark-accent);
   transition: all 0.3s ease;
   animation: scaleIn 0.4s ease-out backwards;
 }
@@ -491,12 +491,12 @@ input:checked + .slider:before {
 
 .stat-box:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 15px var(--color-overlay-medium);
 }
 
 .stat-box-active {
-  border: 2px solid #00bcd4 !important;
-  box-shadow: 0 0 12px rgba(0, 188, 212, 0.35);
+  border: 2px solid var(--color-info-alt) !important;
+  box-shadow: 0 0 12px var(--color-info-alt-soft);
   transform: translateY(-3px);
 }
 
@@ -534,7 +534,7 @@ input:checked + .slider:before {
   margin-bottom: 15px;
   font-size: 18px;
   color: var(--text-light);
-  border-bottom: 1px solid #2e2e40;
+  border-bottom: 1px solid var(--color-border-dark-accent);
   padding-bottom: 10px;
 }
 
@@ -567,10 +567,162 @@ input:checked + .slider:before {
 }
 
 .modal-content::-webkit-scrollbar-thumb {
-  background: #555;
+  background: var(--color-border-muted);
   border-radius: 4px;
 }
 
 .modal-content::-webkit-scrollbar-thumb:hover {
-  background: #777;
+  background: var(--color-grey);
+}
+
+.ddm-modal {
+  background: var(--bg-primary, var(--color-live-bg-primary));
+  max-width: 640px;
+}
+
+.ddm-header h2 {
+  font-size: 18px;
+}
+
+.ddm-body {
+  padding: 16px;
+}
+
+.ddm-loading {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--text-dark, var(--color-text-secondary));
+}
+
+/* ── Live value / summary cards — same look as the site's stat boxes ── */
+.ddm-live-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.ddm-summary-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.ddm-live-card {
+  flex: 1;
+  background: var(--bg-secondary, var(--color-live-bg-secondary));
+  border: 1px solid var(--color-form-border, var(--color-border-dark-accent));
+  border-left: 4px solid var(--card-color, var(--color-info-alt));
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ddm-live-card__title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-dark, var(--color-text-secondary));
+}
+
+.ddm-live-card__value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--card-color, var(--color-white));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Time filter (Today / Week / Month / Year) ── */
+.ddm-time-tabs {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.ddm-time-tab {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--color-form-border, var(--color-border-dark-accent));
+  background: var(--bg-secondary, var(--color-live-bg-secondary));
+  color: var(--text-light, var(--color-text-light));
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ddm-time-tab:hover {
+  border-color: var(--color-selection, var(--color-selection));
+}
+
+.ddm-time-tab--active {
+  background: var(--color-selection, var(--color-selection));
+  border-color: var(--color-selection, var(--color-selection));
+  color: var(--color-white);
+}
+
+/* ── Sensor tabs (Current / Voltage / Power) ── */
+.ddm-sensor-tabs {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.ddm-sensor-tab {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--color-form-border, var(--color-border-dark-accent));
+  background: var(--bg-secondary, var(--color-live-bg-secondary));
+  color: var(--text-dark, var(--color-text-secondary));
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ddm-sensor-tab--active {
+  /* color/border/background set inline per-sensor color */
+}
+
+/* ── Chart cards — same panel style as "Total Power Consumption" ── */
+.ddm-chart-card {
+  background: var(--bg-secondary, var(--color-live-bg-secondary));
+  border: 1px solid var(--color-form-border, var(--color-border-dark-accent));
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.ddm-chart-card__title {
+  color: var(--text-light, var(--color-text-light));
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 15px;
+}
+
+.ddm-chart__empty {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dark, var(--color-text-secondary));
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .ddm-live-row,
+  .ddm-summary-row,
+  .ddm-time-tabs,
+  .ddm-sensor-tabs {
+    flex-wrap: wrap;
+  }
 }

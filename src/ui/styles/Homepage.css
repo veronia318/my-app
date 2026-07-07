@@ -1,10 +1,10 @@
 /* --- Basic Variables --- */
 
 :root {
-  --bg-dark: #1e1e2d;
-  --card-bg: #282c34;
-  --text-light: #e0e0e0;
-  --color-accent: #00bfff;
+  --bg-dark: var(--color-bg-dark);
+  --card-bg: var(--color-card-bg);
+  --text-light: var(--color-text-light);
+  --color-accent: var(--color-primary);
 }
 
 /* --- Main Container --- */
@@ -49,7 +49,7 @@
 
 .subtitle {
   text-align: center;
-  color: #a0a0a0;
+  color: var(--color-text-muted);
   margin-bottom: 40px;
   animation: fadeIn 1s ease-in 0.3s both;
 }
@@ -69,7 +69,7 @@
   background-color: var(--card-bg);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 15px var(--color-shadow-strong);
   border-left: 5px solid;
   transition: all 0.3s ease;
   animation: scaleIn 0.5s ease-out backwards;
@@ -110,7 +110,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.1),
+    var(--color-white-soft),
     transparent
   );
   transition: left 0.5s;
@@ -122,7 +122,7 @@
 
 .home-widget:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 25px var(--color-overlay-strong);
 }
 
 .widget-header {
@@ -149,7 +149,7 @@
 .widget-title {
   font-size: 16px;
   font-weight: 600;
-  color: #ccc;
+  color: var(--color-text-lighter);
   margin: 0;
 }
 
@@ -173,7 +173,7 @@
 
 .widget-unit {
   font-size: 14px;
-  color: #888;
+  color: var(--color-text-secondary);
 }
 
 /* --- Alerts Section --- */
@@ -182,8 +182,8 @@
   background-color: var(--card-bg);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  border-top: 3px solid #ff4500;
+  box-shadow: 0 4px 15px var(--color-shadow-strong);
+  border-top: 3px solid var(--color-alert);
   animation: slideUp 0.6s ease-out 0.4s both;
 }
 
@@ -199,11 +199,11 @@
 }
 
 .alerts-section h2 {
-  color: #ffd700;
+  color: var(--color-warning);
   font-size: 20px;
   margin-top: 0;
   margin-bottom: 15px;
-  border-bottom: 1px dashed #333;
+  border-bottom: 1px dashed var(--color-text-default);
   padding-bottom: 10px;
 }
 
@@ -214,12 +214,12 @@
 }
 
 .alerts-section li {
-  background-color: #333;
+  background-color: var(--color-text-default);
   padding: 10px;
   margin-bottom: 8px;
   border-radius: 5px;
   font-size: 15px;
-  border-left: 4px solid #ff4500;
+  border-left: 4px solid var(--color-alert);
   animation: slideInLeft 0.4s ease-out backwards;
   transition: all 0.3s ease;
 }
@@ -256,7 +256,7 @@
 }
 
 .alerts-section li:hover {
-  background-color: #3d3d3d;
+  background-color: var(--color-dark-grey);
   transform: translateX(5px);
 }
 
@@ -265,7 +265,7 @@
   padding: 30px;
   border-radius: 12px;
   text-align: center;
-  border: 2px solid #ff4500;
+  border: 2px solid var(--color-alert);
   animation: shake 0.5s ease-in-out;
 }
 
@@ -283,12 +283,12 @@
 }
 
 .error-message h2 {
-  color: #ff4500;
+  color: var(--color-alert);
   margin-top: 0;
 }
 
 .error-message p {
-  color: #ccc;
+  color: var(--color-text-lighter);
 }
 
 /* Quick Actions */
@@ -298,7 +298,7 @@
 
 .quick-actions-title {
   font-size: 16px;
-  color: var(--text-light, #ccc);
+  color: var(--text-light, var(--color-text-lighter));
   margin-bottom: 14px;
 }
 
@@ -329,14 +329,14 @@
 }
 
 .all-off-btn {
-  background-color: #c0392b;
-  color: #fff;
+  background-color: var(--color-danger-strong);
+  color: var(--color-white);
 }
 
 .all-off-btn:hover:not(:disabled) {
-  background-color: #e74c3c;
+  background-color: var(--color-alert-strong);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+  box-shadow: 0 6px 20px var(--color-alert-soft-strongest);
 }
 
 /* ── Device AI Status Section ── */
@@ -346,13 +346,13 @@
 
 .device-status-title {
   font-size: 18px;
-  color: #fff;
+  color: var(--color-white);
   margin-bottom: 6px;
 }
 
 .device-status-subtitle {
   font-size: 13px;
-  color: #888;
+  color: var(--color-text-secondary);
   margin-bottom: 16px;
 }
 
@@ -363,8 +363,8 @@
 }
 
 .device-status-card {
-  background: #1a1a2e;
-  border-left: 4px solid #32cd32;
+  background: var(--color-bg-secondary);
+  border-left: 4px solid var(--color-success);
   border-radius: 12px;
   padding: 16px 18px;
   transition:
@@ -374,7 +374,7 @@
 
 .device-status-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 20px var(--color-shadow-strong);
 }
 
 .device-status-card__top {
@@ -387,7 +387,7 @@
 .device-status-card__name {
   font-weight: 600;
   font-size: 15px;
-  color: #fff;
+  color: var(--color-white);
 }
 
 .device-status-card__badge {
@@ -399,6 +399,16 @@
 
 .device-status-card__hint {
   font-size: 12px;
-  color: #666;
+  color: var(--color-grey-dark);
   margin: 0;
+}
+
+/* ── Additions for AI recommendation text inside DeviceStatusCard ── */
+/* Add this block to Homepage.css */
+
+.device-status-card__recommendation {
+  font-size: 12.5px;
+  color: var(--color-danger-light);
+  margin: 6px 0 4px;
+  line-height: 1.4;
 }

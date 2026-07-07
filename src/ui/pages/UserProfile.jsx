@@ -275,11 +275,11 @@ export default function UserProfile() {
       {showDeleteModal && (
         <div className="modal-overlay">
           <div className="modal">
-            <h2 style={{ color: "white" }}>⚠️ Delete Account</h2>
-            <p style={{ color: "white" }}>
+            <h2 style={{ color: "var(--color-white)" }}>⚠️ Delete Account</h2>
+            <p style={{ color: "var(--color-white)" }}>
               This will permanently delete your account and all your data.
               <br />
-              <strong style={{ color: "white" }}>
+              <strong style={{ color: "var(--color-white)" }}>
                 This action cannot be undone!
               </strong>
             </p>

@@ -2,35 +2,35 @@
   padding: 30px;
   max-width: 800px;
   margin: 0 auto;
-  color: var(--text-light, #eee);
+  color: var(--text-light, var(--color-text-very-light));
 }
 
 .scheduling-title {
   font-size: 28px;
   font-weight: 700;
-  color: #00bfff;
+  color: var(--color-primary);
   margin-bottom: 6px;
 }
 
 .scheduling-subtitle {
-  color: #888;
+  color: var(--color-text-secondary);
   margin-bottom: 30px;
   font-size: 14px;
 }
 
 /* ── Form Card ── */
 .schedule-form-card {
-  background: #1a1a2e;
+  background: var(--color-bg-secondary);
   border-radius: 14px;
   padding: 24px;
   margin-bottom: 36px;
-  border: 1px solid #2e2e50;
+  border: 1px solid var(--color-border-dark);
 }
 
 .schedule-form-card h2 {
   font-size: 18px;
   margin-bottom: 20px;
-  color: #fff;
+  color: var(--color-white);
 }
 
 .form-grid {
@@ -48,17 +48,17 @@
 
 .form-group label {
   font-size: 13px;
-  color: #aaa;
+  color: var(--color-text-soft);
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .form-group select,
 .form-group input[type="time"] {
-  background: #12122a;
-  border: 1px solid #3a3a5c;
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-light);
   border-radius: 8px;
-  color: #fff;
+  color: var(--color-white);
   padding: 10px 15px;
   font-size: 14px;
   outline: none;
@@ -69,7 +69,7 @@
 
 .form-group select:focus,
 .form-group input[type="time"]:focus {
-  border-color: #00bfff;
+  border-color: var(--color-primary);
 }
 
 .schedule-message {
@@ -80,18 +80,18 @@
 }
 
 .schedule-message.success {
-  background: rgba(46, 204, 113, 0.15);
-  color: #2ecc71;
+  background: var(--color-success-soft);
+  color: var(--color-success-light);
 }
 
 .schedule-message.error {
-  background: rgba(231, 76, 60, 0.15);
-  color: #e74c3c;
+  background: var(--color-alert-soft);
+  color: var(--color-alert-strong);
 }
 
 .schedule-submit-btn {
-  background: #00bfff;
-  color: #000;
+  background: var(--color-primary);
+  color: var(--color-black);
   border: none;
   border-radius: 10px;
   padding: 12px 28px;
@@ -102,7 +102,7 @@
 }
 
 .schedule-submit-btn:hover:not(:disabled) {
-  background: #33ccff;
+  background: var(--color-primary-bright);
   transform: translateY(-2px);
 }
 
@@ -115,19 +115,19 @@
 .schedules-list h2 {
   font-size: 18px;
   margin-bottom: 16px;
-  color: #fff;
+  color: var(--color-white);
 }
 
 .schedules-empty {
-  color: #666;
+  color: var(--color-grey-dark);
   font-size: 14px;
   text-align: center;
   padding: 30px 0;
 }
 
 .schedule-item {
-  background: #1a1a2e;
-  border: 1px solid #2e2e50;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-dark);
   border-radius: 12px;
   padding: 16px 20px;
   margin-bottom: 12px;
@@ -151,7 +151,7 @@
 .schedule-device {
   font-weight: 600;
   font-size: 15px;
-  color: #fff;
+  color: var(--color-white);
 }
 
 .schedule-action {
@@ -162,19 +162,19 @@
 }
 
 .schedule-action.on {
-  background: rgba(46, 204, 113, 0.2);
-  color: #2ecc71;
+  background: var(--color-success-soft-strong);
+  color: var(--color-success-light);
 }
 
 .schedule-action.off {
-  background: rgba(231, 76, 60, 0.2);
-  color: #e74c3c;
+  background: var(--color-alert-soft-strong);
+  color: var(--color-alert-strong);
 }
 
 .schedule-time,
 .schedule-repeat {
   font-size: 13px;
-  color: #aaa;
+  color: var(--color-text-soft);
 }
 
 .schedule-actions {
@@ -198,18 +198,18 @@
 }
 
 .toggle-btn.active {
-  background: rgba(255, 193, 7, 0.15);
-  color: #ffc107;
+  background: var(--color-warning-soft);
+  color: var(--color-secondary-light);
 }
 
 .toggle-btn.paused {
-  background: rgba(46, 204, 113, 0.15);
-  color: #2ecc71;
+  background: var(--color-success-soft);
+  color: var(--color-success-light);
 }
 
 .delete-btn {
-  background: rgba(231, 76, 60, 0.15);
-  color: #e74c3c;
+  background: var(--color-alert-soft);
+  color: var(--color-alert-strong);
 }
 
 @media (max-width: 600px) {
@@ -233,9 +233,9 @@
 .day-btn {
   padding: 6px 14px;
   border-radius: 20px;
-  border: 1px solid #3a3a5c;
-  background: #12122a;
-  color: #aaa;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-soft);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -243,7 +243,7 @@
 }
 
 .day-btn.selected {
-  background: #00bfff;
-  color: #000;
-  border-color: #00bfff;
+  background: var(--color-primary);
+  color: var(--color-black);
+  border-color: var(--color-primary);
 }

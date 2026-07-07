@@ -8,7 +8,7 @@ const LogoutModal = ({ onConfirm, onCancel }) => (
   <div className="modal-overlay" onClick={onCancel}>
     <div className="logout-modal" onClick={(e) => e.stopPropagation()}>
       <div className="logout-modal__icon">
-        <LogOut size={28} color="#e53935" />
+        <LogOut size={28} color="var(--color-danger)" />
       </div>
       <h3 className="logout-modal__title">Logout Account?</h3>
       <p className="logout-modal__text">
@@ -57,6 +57,9 @@ function Navbar() {
               </Link>
               <Link to="/scheduling" className="nav-link">
                 Scheduling
+              </Link>
+              <Link to="/ai-analysis" className="nav-link">
+                AI Analysis
               </Link>
               <Link to="/profile" className="user-section">
                 <User size={18} />

@@ -95,7 +95,11 @@ function RegisterForm() {
           Signup now and get full access to our app.
         </p>
 
-        {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+        {error && (
+          <p style={{ color: "var(--color-danger)", textAlign: "center" }}>
+            {error}
+          </p>
+        )}
 
         <div className="input-group flex-row">
           <input

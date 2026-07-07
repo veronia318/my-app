@@ -3,13 +3,13 @@
   margin: 15px;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--color-shadow-light);
   width: 250px;
-  background-color: #f7f7f7;
+  background-color: var(--color-bg-light);
 }
 
 .reading-card h3 {
-  color: #333;
+  color: var(--color-text-default);
   margin-top: 0;
 }
 
@@ -22,7 +22,7 @@
 .reading-card span {
   font-size: 0.5em;
   font-weight: normal;
-  color: #777;
+  color: var(--color-grey);
 }
 
 .App {
@@ -33,12 +33,12 @@
 }
 
 .navbar {
-  background: rgba(26, 26, 46, 0.55);
+  background: var(--color-overlay-blue-deep);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-border-light-translucent);
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px var(--color-shadow-medium);
   margin: 12px;
   padding: 14px 28px;
   display: flex;
@@ -54,12 +54,12 @@
 .logo-title {
   font-size: 30px;
   font-weight: 700;
-  color: #00bfff;
+  color: var(--color-primary);
   margin: 0;
 }
 
 .logo-title span {
-  color: rgb(255, 173, 22);
+  color: var(--color-secondary);
 }
 
 .nav-links {
@@ -69,7 +69,7 @@
 }
 
 .nav-link {
-  color: white;
+  color: var(--color-white);
   text-decoration: none;
   font-size: 18px;
   transition: color 0.3s ease-in-out;
@@ -83,12 +83,12 @@
   height: 2px;
   bottom: 0px;
   left: 0;
-  background-color: rgb(255, 173, 22);
+  background-color: var(--color-secondary);
   transition: width 0.3s ease-in-out;
 }
 
 .nav-link:hover {
-  color: #00bfff;
+  color: var(--color-primary);
 }
 
 .nav-link:hover::after {
@@ -102,12 +102,12 @@ body {
 }
 
 .user-section {
-  color: rgb(255, 173, 22);
+  color: var(--color-secondary);
 }
 
 .logout-btn {
-  background-color: #b90000;
-  color: white;
+  background-color: var(--color-button-danger);
+  color: var(--color-white);
   padding: 10px 15px;
   border: none;
   border-radius: 8px;
@@ -121,8 +121,8 @@ body {
 }
 
 .logout-btn:hover {
-  background-color: #ff3333;
-  box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+  background-color: var(--color-button-danger-hover);
+  box-shadow: 0 4px 15px var(--color-danger-bright-soft);
   transform: translateY(-2px);
 }
 
@@ -134,7 +134,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: var(--color-overlay-dark);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,12 +153,12 @@ body {
 
 /* ── Modal Box ── */
 .logout-modal {
-  background: #282c34;
+  background: var(--color-card-bg);
   border-radius: 18px;
   padding: 36px 32px 28px;
   width: 320px;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 60px var(--color-shadow-medium-soft);
   animation: slideUp 0.25s ease;
 }
 
@@ -178,7 +178,7 @@ body {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: rgba(229, 57, 53, 0.1);
+  background: var(--color-danger-soft);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,13 +189,13 @@ body {
 .logout-modal__title {
   font-size: 20px;
   font-weight: 700;
-  color: white;
+  color: var(--color-white);
   margin-bottom: 8px;
 }
 
 .logout-modal__text {
   font-size: 14px;
-  color: #777;
+  color: var(--color-grey);
   margin-bottom: 28px;
 }
 
@@ -210,8 +210,8 @@ body {
   padding: 12px;
   border: none;
   border-radius: 10px;
-  background: #3a3a4a;
-  color: #fff;
+  background: var(--color-surface-panel-alt);
+  color: var(--color-white);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -219,8 +219,8 @@ body {
 }
 
 .logout-modal__cancel:hover {
-  background: #4a4a5a;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background: var(--color-surface-panel-muted);
+  box-shadow: 0 5px 15px var(--color-shadow-medium);
   transform: translateY(-2px);
 }
 .logout-modal__confirm {
@@ -228,8 +228,8 @@ body {
   padding: 12px;
   border: none;
   border-radius: 10px;
-  background: #e53935;
-  color: #fff;
+  background: var(--color-danger);
+  color: var(--color-white);
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -241,7 +241,7 @@ body {
 }
 
 .logout-modal__confirm:hover {
-  background: #ff1a1a;
-  box-shadow: 0 5px 15px rgba(229, 57, 53, 0.5);
+  background: var(--color-danger-darker);
+  box-shadow: 0 5px 15px var(--color-danger-soft-strong);
   transform: translateY(-2px);
 }

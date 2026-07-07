@@ -4,13 +4,13 @@
   padding: 10px;
   max-width: 1200px;
   margin: 10px auto;
-  color: #e0e0e0;
+  color: var(--color-text-light);
   animation: fadeIn 0.6s ease-in;
   border-radius: 20px;
   position: relative;
   min-height: 100vh;
   padding: 30px;
-  color: #fff;
+  color: var(--color-white);
   overflow: hidden;
 }
 .room-details-container::before {
@@ -47,7 +47,7 @@
   align-items: center;
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid var(--color-text-default);
   animation: slideDown 0.8s ease-out;
 }
 
@@ -64,7 +64,7 @@
 
 .room-details-header h1 {
   margin: 0;
-  color: #00bfff;
+  color: var(--color-primary);
   font-size: 32px;
 }
 
@@ -82,28 +82,28 @@
 }
 
 .back-btn {
-  background-color: #444;
-  color: #e0e0e0;
+  background-color: var(--color-border-default);
+  color: var(--color-text-light);
 }
 
 .back-btn:hover {
-  background-color: #555;
+  background-color: var(--color-border-muted);
   transform: translateX(-3px);
 }
 
 .add-device-btn {
-  background-color: #00bfff;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .add-device-btn:hover {
-  background-color: #0099cc;
+  background-color: var(--color-info);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+  box-shadow: 0 5px 15px var(--color-info-soft-strong);
 }
 
 .add-device-panel {
-  background-color: #282c34;
+  background-color: var(--color-card-bg);
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 30px;
@@ -112,7 +112,7 @@
 
 .add-device-panel h3 {
   margin-top: 0;
-  color: #ffd700;
+  color: var(--color-warning);
 }
 
 .devices-list {
@@ -126,19 +126,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px;
-  background-color: #333;
+  background-color: var(--color-text-default);
   border-radius: 8px;
   transition: all 0.3s ease;
 }
 
 .device-option:hover {
-  background-color: #3d3d3d;
+  background-color: var(--color-dark-grey);
   transform: translateX(5px);
 }
 
 .device-option button {
-  background-color: #32cd32;
-  color: white;
+  background-color: var(--color-success);
+  color: var(--color-white);
   border: none;
   padding: 8px 16px;
   border-radius: 6px;
@@ -148,7 +148,7 @@
 }
 
 .device-option button:hover {
-  background-color: #28a428;
+  background-color: var(--color-success-strong);
   transform: scale(1.05);
 }
 
@@ -159,10 +159,10 @@
 }
 
 .device-card {
-  background-color: #282c34;
+  background-color: var(--color-card-bg);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 15px var(--color-shadow-strong);
   transition: all 0.3s ease;
   animation: scaleIn 0.5s ease-out backwards;
 }
@@ -196,7 +196,7 @@
 
 .device-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 25px var(--color-overlay-strong);
 }
 
 .device-header {
@@ -205,26 +205,26 @@
   align-items: center;
   margin-bottom: 15px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid var(--color-border-default);
 }
 
 .device-header h3 {
   margin: 0;
-  color: #ffd700;
+  color: var(--color-warning);
 }
 
 .remove-device-btn {
-  background-color: #ff4500;
+  background-color: var(--color-alert);
   border: none;
   padding: 8px;
   border-radius: 6px;
   cursor: pointer;
-  color: white;
+  color: var(--color-white);
   transition: all 0.3s ease;
 }
 
 .remove-device-btn:hover {
-  background-color: #ff3300;
+  background-color: var(--color-alert-bright);
   transform: rotate(15deg) scale(1.1);
 }
 
@@ -237,11 +237,11 @@
   align-items: center;
   gap: 10px;
   padding: 8px 0;
-  color: #ccc;
+  color: var(--color-text-lighter);
 }
 
 .info-row svg {
-  color: #00bfff;
+  color: var(--color-primary);
 }
 
 .device-controls {
@@ -250,7 +250,7 @@
   align-items: center;
   margin-top: 15px;
   padding-top: 15px;
-  border-top: 1px solid #444;
+  border-top: 1px solid var(--color-border-default);
 }
 
 .status {
@@ -261,13 +261,13 @@
 }
 
 .status.active {
-  background-color: rgba(50, 205, 50, 0.2);
-  color: #32cd32;
+  background-color: var(--color-success-soft-alt-stronger);
+  color: var(--color-success);
 }
 
 .status.inactive {
-  background-color: rgba(244, 67, 54, 0.2);
-  color: #f44336;
+  background-color: var(--color-danger-soft-strong);
+  color: var(--color-danger);
 }
 
 .toggle-btn {
@@ -283,25 +283,25 @@
 }
 
 .toggle-btn.on {
-  background-color: #f44336;
-  color: white;
+  background-color: var(--color-danger);
+  color: var(--color-white);
 }
 
 .toggle-btn.off {
-  background-color: #32cd32;
-  color: white;
+  background-color: var(--color-success);
+  color: var(--color-white);
 }
 
 .toggle-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
 }
 
 .no-devices {
   grid-column: 1 / -1;
   text-align: center;
   padding: 60px 20px;
-  color: #888;
+  color: var(--color-text-secondary);
 }
 
 .no-devices p {
@@ -314,11 +314,11 @@
   text-align: center;
   padding: 50px;
   font-size: 20px;
-  color: #e0e0e0;
+  color: var(--color-text-light);
 }
 
 .error {
-  color: #f44336;
+  color: var(--color-danger);
 }
 
 .room-card-wrapper {
@@ -338,15 +338,19 @@
 
 .room-details-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a, #020617);
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-gradient-start),
+    var(--color-bg-gradient-end)
+  );
   padding: 30px;
-  color: #fff;
+  color: var(--color-white);
 }
 
 /* add-device-button */
 .add-device-button {
-  background-color: #00bfff;
-  color: #fff;
+  background-color: var(--color-primary);
+  color: var(--color-white);
   border: none;
   padding: 10px 16px;
   border-radius: 8px;
@@ -358,7 +362,7 @@
 }
 
 .add-device-button:hover {
-  background-color: #0099cc;
+  background-color: var(--color-info);
   transform: translateY(-2px);
 }
 
@@ -371,37 +375,37 @@
 .add-device-input {
   width: 97%;
   padding: 10px 14px;
-  border: 2px solid #444;
+  border: 2px solid var(--color-border-default);
   border-radius: 8px;
-  background-color: #1e1e1e;
-  color: #e0e0e0;
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-light);
   font-size: 16px;
   transition: all 0.3s ease;
   outline: none;
 }
 
 .add-device-input:focus {
-  border-color: #00bfff;
-  background-color: #282c34;
-  box-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
+  border-color: var(--color-primary);
+  background-color: var(--color-card-bg);
+  box-shadow: 0 0 8px var(--color-primary-soft-strong);
 }
 
 .add-device-input::placeholder {
-  color: #888;
+  color: var(--color-text-secondary);
 }
 
 .edit-device-btn {
-  background: rgba(0, 191, 255, 0.15);
+  background: var(--color-primary-soft);
   border: none;
   border-radius: 50%;
   padding: 5px;
   cursor: pointer;
-  color: #00bfff;
+  color: var(--color-primary);
   transition: all 0.2s ease;
 }
 
 .edit-device-btn:hover {
-  background: rgba(0, 191, 255, 0.35);
+  background: var(--color-primary-soft-stronger);
   transform: scale(1.1);
 }
 
@@ -426,7 +430,7 @@
 }
 
 .reading-item {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--color-white-soft-05);
   border-radius: 10px;
   padding: 10px 8px;
   display: flex;
@@ -438,7 +442,7 @@
 
 .reading-label {
   font-size: 11px;
-  color: #888;
+  color: var(--color-text-secondary);
   font-weight: 500;
   letter-spacing: 0.3px;
 }
@@ -446,14 +450,14 @@
 .reading-value {
   font-size: 15px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-white) fff;
 }
 
 /* Status badge update */
 .status-badge.active {
-  background: rgba(50, 205, 50, 0.15);
-  color: #32cd32;
-  border: 1px solid rgba(50, 205, 50, 0.3);
+  background: var(--color-success-soft-alt-strong);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-soft-alt-strongest);
   padding: 3px 10px;
   border-radius: 20px;
   font-size: 12px;
@@ -461,11 +465,29 @@
 }
 
 .status-badge.inactive {
-  background: rgba(255, 80, 80, 0.15);
-  color: #ff5050;
-  border: 1px solid rgba(255, 80, 80, 0.3);
+  background: var(--color-danger-bright-soft-15);
+  color: var(--color-danger-bright);
+  border: 1px solid var(--color-danger-bright-soft-30);
   padding: 3px 10px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
+}
+
+.ai-status-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.ai-status-badge--normal {
+  color: var(--color-success);
+  background: var(--color-success-soft-alt);
+}
+
+.ai-status-badge--anomaly {
+  color: var(--color-danger);
+  background: var(--color-danger-soft-stronger);
 }

@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #12121e;
+  background-color: var(--color-live-bg-primary);
   z-index: 9999;
 }
 
@@ -44,7 +44,7 @@
   position: absolute;
   width: 4px;
   height: 0%;
-  background: #61dafb;
+  background: var(--color-primary-light);
   z-index: 999999;
 }
 
@@ -197,7 +197,7 @@
 
 .loading-text {
   margin-top: 20px;
-  color: rgba(255, 255, 255, 0.579);
+  color: var(--color-white-translucent);
   font-family: Arial, sans-serif;
   font-size: 18px;
   text-align: center;

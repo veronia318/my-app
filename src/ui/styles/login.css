@@ -13,12 +13,12 @@ liveReadings.css .login-container {
   max-width: 350px;
   border-radius: 20px;
   position: relative;
-  background-color: white;
-  border: 1px solid #333;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-text-default);
 }
 
 .login-container .form {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 15px var(--color-shadow-strong);
   position: absolute;
   width: 300px;
   top: 50%;
@@ -35,7 +35,7 @@ liveReadings.css .login-container {
   display: flex;
   align-items: center;
   padding-left: 30px;
-  color: #00bfff;
+  color: var(--color-primary);
 }
 
 .title::before {
@@ -57,13 +57,13 @@ liveReadings.css .login-container {
   width: 16px;
   border-radius: 50%;
   left: 0px;
-  background-color: #00bfff;
+  background-color: var(--color-primary);
 }
 
 .message,
 .signin {
   font-size: 14.5px;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--color-overlay-darker);
 }
 
 .signin {
@@ -71,12 +71,12 @@ liveReadings.css .login-container {
 }
 
 .signin a:hover {
-  color: rgb(255, 173, 22);
-  text-decoration: underline rgb(255, 173, 22);
+  color: var(--color-secondary);
+  text-decoration: underline var(--color-secondary);
 }
 
 .signin a {
-  color: #00bfff;
+  color: var(--color-primary);
 }
 
 .flex {
@@ -90,18 +90,18 @@ liveReadings.css .login-container {
 }
 
 .form label .input {
-  background-color: white;
-  color: #111;
+  background-color: var(--color-white);
+  color: var(--color-bg-input-dark);
   width: 100%;
   padding: 20px 05px 05px 10px;
   outline: 0;
-  border: 1px solid rgba(105, 105, 105, 0.397);
+  border: 1px solid var(--color-grey-soft);
   border-radius: 10px;
   max-width: 280px;
 }
 
 .form label .input + span {
-  color: rgba(0, 0, 0, 0.69);
+  color: var(--color-text-muted-strong);
   position: absolute;
   left: 10px;
   top: 10px;
@@ -112,7 +112,7 @@ liveReadings.css .login-container {
 
 .form label .input:focus + span,
 .form label .input:valid + span {
-  color: #7979c3;
+  color: var(--color-form-focus);
   top: 0px;
   font-size: 0.7em;
   font-weight: 600;
@@ -128,7 +128,7 @@ liveReadings.css .login-container {
 .input::-webkit-input-placeholder,
 .input:-ms-input-placeholder,
 .input::-ms-input-placeholder {
-  color: #6b6b6b;
+  color: var(--color-text-placeholder);
   opacity: 1;
 }
 
@@ -137,15 +137,15 @@ liveReadings.css .login-container {
   outline: none;
   padding: 10px;
   border-radius: 10px;
-  color: #fff;
+  color: var(--color-white);
   font-size: 16px;
   transform: 0.3s ease;
-  background-color: #00bfff;
+  background-color: var(--color-primary);
   cursor: pointer;
 }
 
 .submit:hover {
-  background-color: #00bfff;
+  background-color: var(--color-primary);
   font-weight: 700;
 }
 

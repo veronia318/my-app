@@ -47,7 +47,13 @@ function LoginPage() {
         <p className="message">Welcome back! Please login to continue.</p>
 
         {errorMessage && (
-          <p style={{ color: "red", fontSize: "14px", textAlign: "center" }}>
+          <p
+            style={{
+              color: "var(--color-danger)",
+              fontSize: "14px",
+              textAlign: "center",
+            }}
+          >
             {errorMessage}
           </p>
         )}

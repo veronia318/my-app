@@ -188,7 +188,13 @@ export default function RoomsPage() {
   if (loading) {
     return (
       <div className="rooms-page-container">
-        <div style={{ textAlign: "center", padding: "50px", color: "white" }}>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "50px",
+            color: "var(--color-white)",
+          }}
+        >
           Loading rooms... ⏳
         </div>
       </div>
@@ -198,7 +204,9 @@ export default function RoomsPage() {
   return (
     <div className="rooms-page-container">
       <div className="rooms-header">
-        <h1 style={{ color: "white" }}>Your Rooms ({rooms.length})</h1>
+        <h1 style={{ color: "var(--color-white)" }}>
+          Your Rooms ({rooms.length})
+        </h1>
 
         <button className="add-room-button" onClick={() => setIsAdding(true)}>
           <PlusCircle size={24} /> <span>Add New Room</span>
@@ -255,7 +263,9 @@ export default function RoomsPage() {
                 onSubmit={(e) => handleUpdateRoom(e, room.id)}
                 style={{ padding: "16px" }}
               >
-                <h3 style={{ color: "white", marginBottom: "10px" }}>
+                <h3
+                  style={{ color: "var(--color-white)", marginBottom: "10px" }}
+                >
                   Edit Room
                 </h3>
                 <input
@@ -338,7 +348,7 @@ export default function RoomsPage() {
           style={{
             textAlign: "center",
             padding: "50px",
-            color: "#888",
+            color: "var(--color-text-secondary)",
             fontSize: "18px",
           }}
         >

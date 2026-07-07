@@ -1,8 +1,9 @@
-// import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect, useCallback } from "react";
 // import { Bolt, Zap, Home, PowerOff } from "lucide-react";
 // import { useNavigate } from "react-router-dom";
 // import "../styles/Homepage.css";
 // import { useAuth } from "../../application/auth/AuthContext";
+// import ChatWidget from "../components/ChatWidget";
 // import API_ENDPOINTS, {
 //   fetchWithAuth,
 //   normalizeDevice,
@@ -25,13 +26,10 @@
 // );
 
 // // ── Device Status Card ──────────────────────────────────────────────────────
-// const DeviceStatusCard = ({ device, onClick }) => {
-//   // Placeholder logic until backend AI is ready
-//   const isAbnormal =
-//     (device.status === "ON" && parseFloat(device.power) > 70) ||
-//     (device.status === "ON" && parseFloat(device.voltage) < 200);
-
-//   const statusLabel = isAbnormal ? "Abnormal" : "Normal";
+// // aiState: { status: "Normal" | "Anomaly", recommendation: string | null }
+// const DeviceStatusCard = ({ device, aiState, onClick }) => {
+//   const isAbnormal = aiState?.status === "Anomaly";
+//   const statusLabel = aiState?.status || "Normal";
 //   const statusColor = isAbnormal ? "#e53935" : "#32CD32";
 //   const statusBg = isAbnormal ? "rgba(229,57,53,0.12)" : "rgba(50,205,50,0.10)";
 
@@ -50,6 +48,11 @@
 //           {statusLabel}
 //         </span>
 //       </div>
+//       {isAbnormal && aiState?.recommendation && (
+//         <p className="device-status-card__recommendation">
+//           ⚠️ {aiState.recommendation}
+//         </p>
+//       )}
 //       <p className="device-status-card__hint">
 //         Tap to view AI recommendations →
 //       </p>
@@ -63,13 +66,14 @@
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
 //   const [togglingAll, setTogglingAll] = useState(false);
+//   const [aiStates, setAiStates] = useState({}); // { [deviceId]: { status, recommendation } }
 //   const { user } = useAuth();
 //   const navigate = useNavigate();
 
 //   useEffect(() => {
 //     if (user) {
 //       fetchUserDevices();
-//       const interval = setInterval(fetchUserDevices, 30000);
+//       const interval = setInterval(fetchUserDevices, 3000);
 //       return () => clearInterval(interval);
 //     }
 //   }, [user]);
@@ -123,11 +127,56 @@
 
 //       setDevices(normalizedDevices);
 //       setLoading(false);
+
+//       // Fetch AI status for each device based on its latest reading
+//       fetchAiStatesForDevices(normalizedDevices);
 //     } catch (err) {
 //       console.error("Error fetching devices:", err);
 //       setError(err.message);
 //       setLoading(false);
 //     }
+//   };
+
+//   // ── AI Status logic ───────────────────────────────────────────────────
+//   // Matches AIAnalysis.jsx: looks only at the latest reading (readings[0]).
+//   //   - If aiPrediction.status === "anomaly" (case-insensitive) → "Anomaly"
+//   //   - Otherwise (including missing aiPrediction/status)       → "Normal"
+//   // Recommendation text always comes from the latest reading.
+//   const fetchAiStatesForDevices = async (deviceList) => {
+//     const results = await Promise.all(
+//       deviceList.map(async (device) => {
+//         try {
+//           const res = await fetchWithAuth(
+//             API_ENDPOINTS.READING_BY_DEVICE(device.id),
+//           );
+//           if (!res.ok)
+//             return [device.id, { status: "Normal", recommendation: null }];
+
+//           const data = await res.json();
+//           const readings = Array.isArray(data) ? data : data.readings || [];
+
+//           // Readings come back newest-first (sort: createdAt -1 on the backend)
+//           const latest = readings[0];
+
+//           const isAnomaly =
+//             latest?.aiPrediction?.status?.toLowerCase() === "anomaly";
+
+//           return [
+//             device.id,
+//             {
+//               status: isAnomaly ? "Anomaly" : "Normal",
+//               recommendation: latest?.aiPrediction?.recommendation || null,
+//             },
+//           ];
+//         } catch (err) {
+//           console.error("AI status fetch error for device", device.id, err);
+//           return [device.id, { status: "Normal", recommendation: null }];
+//         }
+//       }),
+//     );
+
+//     const newAiStates = Object.fromEntries(results);
+//     setAiStates(newAiStates);
 //   };
 
 //   const handleToggleAll = async (newStatus) => {
@@ -249,13 +298,15 @@
 //         <div className="device-status-section">
 //           <h2 className="device-status-title">🤖 AI Device Status</h2>
 //           <p className="device-status-subtitle">
-//             Tap a device to view AI recommendations
+//             Tap a device to view AI recommendations. Devices flagged as Anomaly
+//             are shut down automatically for safety.
 //           </p>
 //           <div className="device-status-grid">
 //             {devices.map((device) => (
 //               <DeviceStatusCard
 //                 key={device.id}
 //                 device={device}
+//                 aiState={aiStates[device.id]}
 //                 onClick={handleDeviceCardClick}
 //               />
 //             ))}
@@ -271,11 +322,13 @@
 //           </p>
 //         </div>
 //       )}
+
+//       <ChatWidget />
 //     </div>
 //   );
 // }
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Bolt, Zap, Home, PowerOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Homepage.css";
@@ -303,15 +356,19 @@ const HomeWidget = ({ title, value, unit, icon, color }) => (
 );
 
 // ── Device Status Card ──────────────────────────────────────────────────────
-const DeviceStatusCard = ({ device, onClick }) => {
-  // Placeholder logic until backend AI is ready
-  const isAbnormal =
-    (device.status === "ON" && parseFloat(device.power) > 70) ||
-    (device.status === "ON" && parseFloat(device.voltage) < 200);
-
-  const statusLabel = isAbnormal ? "Abnormal" : "Normal";
-  const statusColor = isAbnormal ? "#e53935" : "#32CD32";
-  const statusBg = isAbnormal ? "rgba(229,57,53,0.12)" : "rgba(50,205,50,0.10)";
+// aiState: { status: "Normal" | "Anomaly", recommendation: string | null }
+// Note: recommendation is intentionally NOT rendered here — only the device
+// name and status badge are shown. Full recommendation text lives on the
+// AI Analysis page.
+const DeviceStatusCard = ({ device, aiState, onClick }) => {
+  const isAbnormal = aiState?.status === "Anomaly";
+  const statusLabel = aiState?.status || "Normal";
+  const statusColor = isAbnormal
+    ? "var(--color-danger)"
+    : "var(--color-success)";
+  const statusBg = isAbnormal
+    ? "var(--color-danger-soft-stronger)"
+    : "var(--color-success-soft)";
 
   return (
     <div
@@ -341,13 +398,14 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [togglingAll, setTogglingAll] = useState(false);
+  const [aiStates, setAiStates] = useState({}); // { [deviceId]: { status, recommendation } }
   const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
       fetchUserDevices();
-      const interval = setInterval(fetchUserDevices, 30000);
+      const interval = setInterval(fetchUserDevices, 3000);
       return () => clearInterval(interval);
     }
   }, [user]);
@@ -401,11 +459,80 @@ export default function HomePage() {
 
       setDevices(normalizedDevices);
       setLoading(false);
+
+      // Fetch AI status for each device based on its latest reading
+      fetchAiStatesForDevices(normalizedDevices);
     } catch (err) {
       console.error("Error fetching devices:", err);
       setError(err.message);
       setLoading(false);
     }
+  };
+
+  // ── AI Status logic ───────────────────────────────────────────────────
+  // Matches AIAnalysis.jsx:
+  //   - If the device is OFF → always "Normal", no recommendation, state "off".
+  //     AI predictions are not evaluated at all while the device is off.
+  //   - If the device is ON  → look at the latest reading's aiPrediction.
+  //     If the latest reading has no aiPrediction, search backwards through
+  //     readings until a valid aiPrediction is found.
+  //     If none exists at all, default to Normal / null recommendation / null state.
+  const fetchAiStatesForDevices = async (deviceList) => {
+    const results = await Promise.all(
+      deviceList.map(async (device) => {
+        // Device is OFF — don't evaluate or search for AI predictions at all.
+        if (device.status === "OFF") {
+          return [
+            device.id,
+            { status: "Normal", recommendation: null, state: "off" },
+          ];
+        }
+
+        try {
+          const res = await fetchWithAuth(
+            API_ENDPOINTS.READING_BY_DEVICE(device.id),
+          );
+          if (!res.ok)
+            return [
+              device.id,
+              { status: "Normal", recommendation: null, state: null },
+            ];
+
+          const data = await res.json();
+          const readings = Array.isArray(data) ? data : data.readings || [];
+
+          // Readings come back newest-first (sort: createdAt -1 on the backend)
+          // Search backwards from the latest reading until we find one with
+          // a valid aiPrediction.
+          const readingWithPrediction = readings.find((r) => r.aiPrediction);
+          const aiPrediction = readingWithPrediction?.aiPrediction;
+
+          const isAnomaly = aiPrediction?.status?.toLowerCase() === "anomaly";
+
+          return [
+            device.id,
+            {
+              status: aiPrediction
+                ? isAnomaly
+                  ? "Anomaly"
+                  : "Normal"
+                : "Normal",
+              recommendation: aiPrediction?.recommendation || null,
+              state: aiPrediction?.state || null,
+            },
+          ];
+        } catch (err) {
+          console.error("AI status fetch error for device", device.id, err);
+          return [
+            device.id,
+            { status: "Normal", recommendation: null, state: null },
+          ];
+        }
+      }),
+    );
+
+    const newAiStates = Object.fromEntries(results);
+    setAiStates(newAiStates);
   };
 
   const handleToggleAll = async (newStatus) => {
@@ -460,21 +587,21 @@ export default function HomePage() {
       value: loading ? "..." : stats.totalPower,
       unit: "Watts",
       icon: <Bolt size={32} />,
-      color: "#FFD700",
+      color: "var(--color-warning)",
     },
     {
       title: "Active Devices",
       value: loading ? "..." : stats.activeDevices,
       unit: `of ${stats.totalDevices} devices`,
       icon: <Zap size={32} />,
-      color: "#32CD32",
+      color: "var(--color-success)",
     },
     {
       title: "Total Rooms",
       value: loading ? "..." : rooms.length,
       unit: rooms.length === 1 ? "room" : "rooms",
       icon: <Home size={32} />,
-      color: "#00BFFF",
+      color: "var(--color-primary)",
     },
   ];
 
@@ -527,13 +654,15 @@ export default function HomePage() {
         <div className="device-status-section">
           <h2 className="device-status-title">🤖 AI Device Status</h2>
           <p className="device-status-subtitle">
-            Tap a device to view AI recommendations
+            Tap a device to view AI recommendations. Devices flagged as Anomaly
+            are shut down automatically for safety.
           </p>
           <div className="device-status-grid">
             {devices.map((device) => (
               <DeviceStatusCard
                 key={device.id}
                 device={device}
+                aiState={aiStates[device.id]}
                 onClick={handleDeviceCardClick}
               />
             ))}
@@ -542,9 +671,12 @@ export default function HomePage() {
       )}
 
       {!loading && devices.length === 0 && (
-        <div className="alerts-section" style={{ borderTopColor: "#00BFFF" }}>
-          <h2 style={{ color: "#00BFFF" }}>📊 No Devices Yet</h2>
-          <p style={{ color: "#888", margin: 0 }}>
+        <div
+          className="alerts-section"
+          style={{ borderTopColor: "var(--color-primary)" }}
+        >
+          <h2 style={{ color: "var(--color-primary)" }}>📊 No Devices Yet</h2>
+          <p style={{ color: "var(--color-text-secondary)", margin: 0 }}>
             Add rooms and devices to see your smart home overview!
           </p>
         </div>

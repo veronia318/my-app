@@ -2,10 +2,10 @@
 
 /* Theme variables: central color and text values used across the page. */
 :root {
-  --bg-primary: #12121e;
-  --bg-card: #282c34;
-  --text-light: #e0e0e0;
-  --color-accent: #00bfff;
+  --bg-primary: var(--color-live-bg-primary);
+  --bg-card: var(--color-card-bg);
+  --text-light: var(--color-text-light);
+  --color-accent: var(--color-primary);
 }
 
 /* Fade-in animation: subtle upward motion with opacity transition. */
@@ -76,7 +76,7 @@
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--color-text-default);
   animation: slideDown 0.8s ease-out;
 }
 
@@ -87,7 +87,7 @@
 /* Primary CTA: styled accent button for adding a room. */
 .add-room-button {
   background-color: var(--color-accent);
-  color: white;
+  color: var(--color-white);
   border: none;
   padding: 10px 15px;
   border-radius: 8px;
@@ -101,9 +101,9 @@
 }
 
 .add-room-button:hover {
-  background-color: #0099cc;
+  background-color: var(--color-info);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+  box-shadow: 0 5px 15px var(--color-info-soft-strong);
 }
 
 /* Grid wrapper: responsive grid for room cards with consistent gaps. */
@@ -121,10 +121,10 @@
   flex-direction: column;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 12px var(--color-overlay-darker);
   background-color: var(--bg-card);
   transition: all 0.3s ease;
-  border: 1px solid black;
+  border: 1px solid var(--color-black);
   height: 300px;
   animation: scaleIn 0.5s ease-out backwards;
   position: relative;
@@ -157,7 +157,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 191, 255, 0.2),
+    var(--color-info-soft),
     transparent
   );
   transition: left 0.6s;
@@ -170,7 +170,7 @@
 
 .room-card-link:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 12px 30px rgba(0, 191, 255, 0.3);
+  box-shadow: 0 12px 30px var(--color-primary-soft-strong);
   border-color: var(--color-accent);
 }
 
@@ -179,7 +179,7 @@
   width: 100%;
   height: 200px;
   position: relative;
-  border-bottom: 2px solid rgb(255, 173, 22);
+  border-bottom: 2px solid var(--color-secondary);
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -201,7 +201,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #00bfff4f;
+  background-color: var(--color-primary);
   flex-grow: 1;
   color: var(--text-light);
   transition: all 0.3s ease;
@@ -210,14 +210,14 @@
 }
 
 .room-info-section:hover {
-  background-color: #00bfff;
+  background-color: var(--color-primary) 4f;
 }
 
 .room-info-section h2 {
   font-size: 25px;
   font-weight: 800;
   margin: 0;
-  color: white;
+  color: var(--color-white);
   transition: transform 0.3s ease;
 }
 
@@ -240,7 +240,7 @@
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 30px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 10px var(--color-overlay-medium);
   animation: slideDown 0.4s ease-out;
 }
 
@@ -255,8 +255,8 @@
 .add-room-form input {
   padding: 12px;
   border-radius: 6px;
-  border: 1px solid #444;
-  background-color: #333;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-text-default);
   color: var(--text-light);
   font-size: 16px;
   transition: all 0.3s ease;
@@ -272,13 +272,13 @@
 }
 
 .add-room-form input::placeholder {
-  color: #999;
+  color: var(--color-grey-light);
 }
 
 .add-room-form input:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+  box-shadow: 0 0 10px var(--color-primary-soft-strong);
   transform: translateY(-2px);
 }
 
@@ -304,27 +304,27 @@
 /* Primary form action: accent background to indicate submission. */
 .form-submit-btn {
   background-color: var(--color-accent);
-  color: white;
+  color: var(--color-white);
   border: none;
 }
 
 .form-submit-btn:hover {
-  background-color: #0099cc;
+  background-color: var(--color-info);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+  box-shadow: 0 5px 15px var(--color-info-soft-strong);
 }
 
 /* Secondary action: muted cancel button to avoid visual competition. */
 .form-cancel-btn {
-  background-color: #444;
+  background-color: var(--color-border-default);
   color: var(--text-light);
-  border: 1px solid #555;
+  border: 1px solid var(--color-border-muted);
 }
 
 .form-cancel-btn:hover {
-  background-color: #555;
+  background-color: var(--color-border-muted);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 5px 15px var(--color-shadow-strong);
 }
 
 /* Responsive: tweaks for medium/smaller screens to stack content. */
@@ -351,12 +351,12 @@
   position: absolute;
   top: 10px;
   right: 50px; /* جنب الـ delete */
-  background-color: rgba(0, 191, 255, 0.9);
+  background-color: var(--color-primary-opaque);
   border: none;
   padding: 8px;
   border-radius: 50%;
   cursor: pointer;
-  color: white;
+  color: var(--color-white);
   z-index: 10;
   transition: all 0.3s ease;
   opacity: 0;
@@ -367,7 +367,7 @@
 }
 
 .edit-room-btn:hover {
-  background-color: #00bfff;
+  background-color: var(--color-primary);
   transform: rotate(-15deg) scale(1.1);
 }
 
@@ -375,12 +375,12 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: rgba(244, 67, 54, 0.9);
+  background-color: var(--color-danger-soft-strongest);
   border: none;
   padding: 8px;
   border-radius: 50%;
   cursor: pointer;
-  color: white;
+  color: var(--color-white);
   z-index: 10;
   transition: all 0.3s ease;
   opacity: 0;
@@ -391,6 +391,6 @@
 }
 
 .delete-room-btn:hover {
-  background-color: #f44336;
+  background-color: var(--color-danger);
   transform: rotate(15deg) scale(1.1);
 }

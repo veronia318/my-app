@@ -7,7 +7,13 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center", padding: "50px", color: "white" }}>
+      <div
+        style={{
+          textAlign: "center",
+          padding: "50px",
+          color: "var(--color-white)",
+        }}
+      >
         Loading...
       </div>
     );

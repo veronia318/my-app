@@ -587,6 +587,9 @@
 //     </div>
 //   );
 // }
+
+// ظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظظ
+
 //from folder fixed files
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
@@ -664,8 +667,55 @@ export default function LiveReadings() {
   const [error, setError] = useState(null);
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
   const [totalPower, setTotalPower] = useState(0);
+  const [aiStates, setAiStates] = useState({}); // { [deviceId]: { status: "Normal" | "Anomaly" } }
 
   const { user } = useAuth();
+
+  // ── AI Status logic ───────────────────────────────────────────────────
+  // Mirrors Homepage.jsx / AIAnalysis.jsx:
+  //   - If the device is OFF → always "Normal", no prediction evaluated.
+  //   - If the device is ON  → look at the latest reading's aiPrediction.
+  //     If the latest reading has no aiPrediction, search backwards through
+  //     readings until a valid aiPrediction is found. Default to Normal.
+  const fetchAiStatesForDevices = useCallback(async (deviceList) => {
+    const results = await Promise.all(
+      deviceList.map(async (device) => {
+        if (device.status === "OFF") {
+          return [device.id, { status: "Normal" }];
+        }
+
+        try {
+          const res = await fetchWithAuth(
+            API_ENDPOINTS.READING_BY_DEVICE(device.id),
+          );
+          if (!res.ok) return [device.id, { status: "Normal" }];
+
+          const data = await res.json();
+          const readings = Array.isArray(data) ? data : data.readings || [];
+
+          const readingWithPrediction = readings.find((r) => r.aiPrediction);
+          const aiPrediction = readingWithPrediction?.aiPrediction;
+          const isAnomaly = aiPrediction?.status?.toLowerCase() === "anomaly";
+
+          return [
+            device.id,
+            {
+              status: aiPrediction
+                ? isAnomaly
+                  ? "Anomaly"
+                  : "Normal"
+                : "Normal",
+            },
+          ];
+        } catch (err) {
+          console.error("AI status fetch error for device", device.id, err);
+          return [device.id, { status: "Normal" }];
+        }
+      }),
+    );
+
+    setAiStates(Object.fromEntries(results));
+  }, []);
 
   const fetchData = useCallback(async () => {
     if (!user) return;
@@ -719,14 +769,6 @@ export default function LiveReadings() {
         normalizedDevices = allDevices.map(normalizeDevice);
       }
 
-      // If a device reports 0 power and 0 current, treat it as OFF
-      // regardless of what the backend's stored state says.
-      normalizedDevices = normalizedDevices.map((device) =>
-        device.power === 0 && device.current === 0
-          ? { ...device, status: "OFF" }
-          : device,
-      );
-
       setDevices(normalizedDevices);
 
       const total = normalizedDevices.reduce(
@@ -762,12 +804,15 @@ export default function LiveReadings() {
 
       setIsLoading(false);
       setError(null);
+
+      // Refresh the System Status card based on each device's AI prediction.
+      fetchAiStatesForDevices(normalizedDevices);
     } catch (err) {
       console.error("API Error:", err);
       setError(err.message);
       setIsLoading(false);
     }
-  }, [user]);
+  }, [user, fetchAiStatesForDevices]);
 
   useEffect(() => {
     if (user) {
@@ -821,31 +866,46 @@ export default function LiveReadings() {
     }
   };
 
+  // System is flagged "Anomaly" the moment any device's latest AI
+  // prediction comes back as Anomaly — otherwise it stays "Normal".
+  const systemStatus = useMemo(() => {
+    if (error) return "Error";
+    const hasAnomaly = devices.some(
+      (d) => aiStates[d.id]?.status === "Anomaly",
+    );
+    return hasAnomaly ? "Anomaly" : "Normal";
+  }, [devices, aiStates, error]);
+
   const summaryReadings = useMemo(
     () => [
       {
         title: "Total Devices",
         value: devices.length,
         unit: "Devices",
-        color: "#4a148c",
+        color: "var(--color-voltage)",
         icon: <Zap />,
       },
       {
         title: "Total Power",
         value: totalPower.toFixed(2),
         unit: "W",
-        color: "#ff8f00",
+        color: "var(--color-power)",
         icon: <Power />,
       },
       {
         title: "System Status",
-        value: error ? "Error" : "Normal",
+        value: systemStatus,
         unit: "",
-        color: error ? "#d32f2f" : "#2e7d32",
+        color:
+          systemStatus === "Anomaly"
+            ? "var(--color-danger)"
+            : systemStatus === "Error"
+              ? "var(--color-danger-dark)"
+              : "var(--color-current)",
         icon: <AlertTriangle />,
       },
     ],
-    [devices.length, totalPower, error],
+    [devices.length, totalPower, systemStatus],
   );
 
   const selectedDevice = devices.find((d) => d.id === selectedDeviceId);
@@ -888,7 +948,7 @@ export default function LiveReadings() {
             <Line
               type="monotone"
               dataKey="Total Power"
-              stroke="#ff8f00"
+              stroke="var(--color-power)"
               strokeWidth={3}
               dot={false}
             />
@@ -902,7 +962,7 @@ export default function LiveReadings() {
             style={{
               textAlign: "center",
               padding: "50px",
-              color: "#888",
+              color: "var(--color-text-secondary)",
               fontSize: "18px",
             }}
           >
