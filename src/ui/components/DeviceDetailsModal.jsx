@@ -1574,7 +1574,7 @@
 
 // export default DeviceDetailsModal;
 
-// ققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققققق
+// new code 
 
 import React, {
   useState,
